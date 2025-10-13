@@ -1,0 +1,11 @@
+{
+  "name": "zamio_super",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "zamio_frontend",
+    "zamio_stations",
+    "zamio_publisher",
+    "zamio_admin"
+  ]
+}

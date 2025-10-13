@@ -1,0 +1,3 @@
+import React from 'react'
+import { Card, Button } from '@zamio/ui'
+export default function Landing(){ return (<div className='space-y-6'><h1 className='text-3xl font-bold'>Welcome to Zamio</h1><div className='grid md:grid-cols-2 gap-4'><Card><h3 className='font-semibold'>What we do</h3><p>Royalty collection and management for Ghanaian and international artists.</p></Card><Card><h3 className='font-semibold'>Get started</h3><p>Static demo UI.</p><div className='mt-3'><Button>Sign up</Button></div></Card></div></div>) }
