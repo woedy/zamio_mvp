@@ -23,7 +23,7 @@ This document outlines a structured task list to evolve `zamio_frontend` from it
      - Existing `App.tsx`, `main.tsx`, and pages are relocated without breaking functionality.
      - New folders are created with initial files (e.g., `lib/api.ts` for API client).
 
-- [ ] **2. Task: Implement Proper Routing with React Router**
+- [x] **2. Task: Implement Proper Routing with React Router**
    - **User Story**: As a user, I want seamless navigation between pages so that I can access features intuitively.
    - **Description**: Replace URL query-based routing (`?p=landing`) with React Router v6, including public/private route guards for authentication.
    - **Acceptance Criteria**:
