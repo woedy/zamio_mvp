@@ -87,3 +87,6 @@ temp/
 # Build outputs (adjust based on your setup, e.g., dist/ for Vite or other bundlers)
 dist/
 build/
+
+# zamio_frontend_copy
+zamio_frontend copy
