@@ -147,7 +147,7 @@ export default function EmailVerification() {
             {verificationStatus === 'success' && (
               <div className="flex items-center justify-center text-green-400 text-sm mb-4">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Email verified successfully!
+                Email verified successfully! Redirecting to onboarding...
               </div>
             )}
 

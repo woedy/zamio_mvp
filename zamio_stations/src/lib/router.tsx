@@ -17,8 +17,12 @@ const PublicRoute = ({ children }: { children: ReactNode }) => {
   return !isAuthenticated() ? <>{children}</> : <Navigate to="/dashboard" replace />;
 };
 
+// Import onboarding components
+import OnboardingWizard from '../components/onboarding/OnboardingWizard';
+import StationOnboarding from '../pages/Authentication/StationOnboarding';
+
 // Import pages (assuming they exist in pages/)
-import Landing from '../pages/Landing';
+import ZamIOLandingPage from '../pages/Landing';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import EmailVerification from '../pages/EmailVerification';
@@ -30,7 +34,7 @@ const router = createBrowserRouter([
     path: '/',
     element: (
       <PublicRoute>
-        <Landing />
+        <ZamIOLandingPage />
       </PublicRoute>
     ),
   },
@@ -55,6 +59,14 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <EmailVerification />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/onboarding',
+    element: (
+      <PublicRoute>
+        <StationOnboarding />
       </PublicRoute>
     ),
   },

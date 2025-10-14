@@ -44,8 +44,8 @@ export default function SignUp() {
     console.log('Sign-up successful:', formData);
 
     // In a real app, this would be an API call that sends verification email
-    // For demo purposes, we'll immediately redirect to onboarding
-    navigate('/onboarding');
+    // For demo purposes, we'll redirect to email verification first
+    navigate('/verify-email');
   };
 
   return (
