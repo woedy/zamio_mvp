@@ -23,11 +23,11 @@ Implementation of the multi-step station onboarding system for zamio_stations ba
   - [x] License and compliance information
   - [x] Contact information
 
-- [ ] **Stream Setup Step** (`steps/StreamSetupStep.tsx`)
-  - [ ] Stream link configuration
-  - [ ] Audio monitoring setup
-  - [ ] Technical requirements
-  - [ ] Testing tools
+- [x] **Stream Setup Step** (`steps/StreamSetupStep.tsx`)
+  - [x] Stream link configuration
+  - [x] Audio monitoring setup
+  - [x] Technical requirements
+  - [x] Testing tools
 
 - [ ] **Staff Management Step** (`steps/StaffStep.tsx`)
   - [ ] Staff member addition form

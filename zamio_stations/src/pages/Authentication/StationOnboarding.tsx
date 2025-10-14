@@ -2,37 +2,7 @@ import React from 'react';
 import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/OnboardingWizard';
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
 import ProfileStep from './Onboarding/steps/ProfileStep';
-
-const StreamSetupStep: React.FC<any> = ({ onNext, onPrevious }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Stream Configuration</h3>
-    <p className="text-slate-300 mb-6">Set up your audio streams for monitoring and reporting.</p>
-    <div className="space-y-4 mb-6">
-      <div>
-        <label className="block text-sm font-medium text-slate-200 mb-2">Primary Stream URL</label>
-        <input
-          type="url"
-          className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-          placeholder="https://your-station-stream.com"
-        />
-      </div>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
+import StreamSetupStep from './Onboarding/steps/StreamSetupStep';
 
 const StaffStep: React.FC<any> = ({ onNext, onPrevious }) => (
   <div className="py-8">
