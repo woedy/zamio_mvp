@@ -16,7 +16,8 @@ Implementation of multi-step onboarding systems for both zamio_frontend (artists
 - **Welcome Step**: Platform introduction and station setup overview ✅
 - **Profile Step**: Station details, licensing, and contact information ✅
 - **Stream Setup Step**: Stream configuration, monitoring, and testing ✅
-- **Next**: Staff, Compliance, Payment steps
+- **Staff Management Step**: Team member management with roles and permissions ✅
+- **Next**: Compliance, Payment steps
 
 ## 📋 Current Focus: zamio_stations Onboarding
 
@@ -44,11 +45,11 @@ Implementation of multi-step onboarding systems for both zamio_frontend (artists
   - [x] Technical requirements
   - [x] Testing tools
 
-- [ ] **Staff Management Step** (`steps/StaffStep.tsx`)
-  - [ ] Staff member addition form
-  - [ ] Role assignment (Manager, Reporter, Admin)
-  - [ ] Permission management
-  - [ ] Contact information
+- [x] **Staff Management Step** (`steps/StaffStep.tsx`)
+  - [x] Staff member addition form
+  - [x] Role assignment (Manager, Reporter, Admin)
+  - [x] Permission management
+  - [x] Contact information
 
 - [ ] **Compliance Step** (`steps/ComplianceStep.tsx`)
   - [ ] License verification

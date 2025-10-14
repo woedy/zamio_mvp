@@ -3,31 +3,7 @@ import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/On
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
 import ProfileStep from './Onboarding/steps/ProfileStep';
 import StreamSetupStep from './Onboarding/steps/StreamSetupStep';
-
-const StaffStep: React.FC<any> = ({ onNext, onPrevious }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Staff Management</h3>
-    <p className="text-slate-300 mb-6">Add team members and assign roles for station operations.</p>
-    <div className="border-2 border-dashed border-slate-600 rounded-lg p-8 text-center mb-6">
-      <p className="text-slate-400 mb-4">Staff management interface</p>
-      <p className="text-sm text-slate-500">Add team members and assign roles</p>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
+import StaffStep from './Onboarding/steps/StaffStep';
 
 const ComplianceStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
   <div className="py-8">

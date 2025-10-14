@@ -29,11 +29,11 @@ Implementation of the multi-step station onboarding system for zamio_stations ba
   - [x] Technical requirements
   - [x] Testing tools
 
-- [ ] **Staff Management Step** (`steps/StaffStep.tsx`)
-  - [ ] Staff member addition form
-  - [ ] Role assignment (Manager, Reporter, Admin)
-  - [ ] Permission management
-  - [ ] Contact information
+- [x] **Staff Management Step** (`steps/StaffStep.tsx`)
+  - [x] Staff member addition form
+  - [x] Role assignment (Manager, Reporter, Admin)
+  - [x] Permission management
+  - [x] Contact information
 
 - [ ] **Compliance Step** (`steps/ComplianceStep.tsx`)
   - [ ] License verification
