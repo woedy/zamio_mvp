@@ -3,45 +3,9 @@ import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/On
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
 import ProfileStep from './Onboarding/steps/ProfileStep';
 import KYCStep from './Onboarding/steps/KYCStep';
+import SocialMediaInfo from './Onboarding/SocialMediaInfo';
 
 // Placeholder step components - will be replaced with actual implementations
-const SocialMediaStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Social Media</h3>
-    <p className="text-slate-300 mb-6">Connect your social media accounts to enhance your profile.</p>
-    <div className="space-y-4 mb-6">
-      {['Instagram', 'Twitter', 'Facebook', 'TikTok'].map((platform) => (
-        <div key={platform} className="flex items-center justify-between p-4 border border-white/10 rounded-lg">
-          <span className="text-slate-200">{platform}</span>
-          <button className="text-indigo-400 hover:text-indigo-300 text-sm">
-            Connect
-          </button>
-        </div>
-      ))}
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onSkip}
-        className="border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Skip
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
-
 const PaymentStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
   <div className="py-8">
     <h3 className="text-2xl font-semibold text-white mb-4">Payment Information</h3>
@@ -161,7 +125,7 @@ export default function ArtistOnboarding() {
       id: 'social-media',
       title: 'Social Media',
       description: 'Connect your social media accounts',
-      component: SocialMediaStep,
+      component: SocialMediaInfo,
       isCompleted: false,
       isRequired: false,
     },

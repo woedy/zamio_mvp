@@ -30,10 +30,10 @@ Implementation of the multi-step artist onboarding system for zamio_frontend bas
   - [x] Verification status display
   - [x] Skip option for demo
 
-- [ ] **Social Media Step** (`SocialMediaInfo.tsx`)
-  - [ ] Social platform connection (demo)
-  - [ ] Profile linking
-  - [ ] Verification badges
+- [x] **Social Media Step** (`SocialMediaInfo.tsx`)
+  - [x] Social platform connection (demo)
+  - [x] Profile linking
+  - [x] Verification badges
 
 - [ ] **Payment Info Step** (`PaymentInfo.tsx`)
   - [ ] Payment method selection (demo)
