@@ -35,11 +35,11 @@ Implementation of the multi-step station onboarding system for zamio_stations ba
   - [x] Permission management
   - [x] Contact information
 
-- [ ] **Compliance Step** (`steps/ComplianceStep.tsx`)
-  - [ ] License verification
-  - [ ] Regulatory compliance forms
-  - [ ] Documentation upload
-  - [ ] Compliance checklist
+- [x] **Compliance Step** (`steps/ComplianceStep.tsx`)
+  - [x] License verification
+  - [x] Regulatory compliance forms
+  - [x] Documentation upload
+  - [x] Compliance checklist
 
 - [ ] **Payment Setup Step** (`steps/PaymentStep.tsx`)
   - [ ] Payment method selection (demo)
