@@ -5,53 +5,9 @@ import ProfileStep from './Onboarding/steps/ProfileStep';
 import KYCStep from './Onboarding/steps/KYCStep';
 import SocialMediaInfo from './Onboarding/SocialMediaInfo';
 import PaymentInfo from './Onboarding/PaymentInfo';
+import Publisher from './Onboarding/Publisher';
 
-// Placeholder step components - will be replaced with actual implementations
-const PublisherStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Publisher (Optional)</h3>
-    <p className="text-slate-300 mb-6">Connect with a publisher if you have one, or continue as self-published.</p>
-    <div className="space-y-4 mb-6">
-      <div className="p-4 border border-white/10 rounded-lg">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-slate-200">Self-Published Artist</span>
-          <span className="text-green-400 text-sm">✓ Recommended</span>
-        </div>
-        <p className="text-sm text-slate-400">
-          You have full control over your music and receive royalty payments directly.
-        </p>
-      </div>
-      <div className="p-4 border border-white/10 rounded-lg opacity-50">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-slate-200">Connect Publisher</span>
-        </div>
-        <p className="text-sm text-slate-400">
-          Link your account with an existing publisher (demo - not functional).
-        </p>
-      </div>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onSkip}
-        className="border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Skip
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Complete Setup
-      </button>
-    </div>
-  </div>
-);
+// All step components are now properly imported above
 
 export default function ArtistOnboarding() {
   const steps: OnboardingStep[] = [
@@ -99,7 +55,7 @@ export default function ArtistOnboarding() {
       id: 'publisher',
       title: 'Publisher (Optional)',
       description: 'Connect with a publisher if you have one',
-      component: PublisherStep,
+      component: Publisher,
       isCompleted: false,
       isRequired: false,
     },

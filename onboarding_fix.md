@@ -41,10 +41,10 @@ Implementation of the multi-step artist onboarding system for zamio_frontend bas
   - [x] Mobile money integration (demo)
   - [x] Currency selection
 
-- [ ] **Publisher Step** (`Publisher.tsx`)
-  - [ ] Publisher search/lookup (demo)
-  - [ ] Connection options
-  - [ ] Agreement terms (demo)
+- [x] **Publisher Step** (`Publisher.tsx`)
+  - [x] Publisher search/lookup (demo)
+  - [x] Connection options
+  - [x] Agreement terms (demo)
 
 ### Phase 3: Enhanced Components
 - [ ] **CompleteProfile.tsx** - Alternative profile completion flow
