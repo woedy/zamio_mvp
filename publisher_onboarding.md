@@ -23,10 +23,10 @@ Implementation of a comprehensive onboarding system for zamio_publisher (music p
 ### Phase 2: Step Components Creation 🚧 IN PROGRESS
 
 #### Step 1: Welcome Step (`steps/WelcomeStep.tsx`)
-- [ ] Welcome message and platform introduction
-- [ ] Publisher setup overview and benefits
-- [ ] "What's Next" roadmap for publishers
-- [ ] Company registration encouragement
+- [x] Welcome message and platform introduction
+- [x] Publisher setup overview and benefits
+- [x] "What's Next" roadmap for publishers
+- [x] Company registration encouragement
 
 #### Step 2: Company Profile (`steps/CompanyProfileStep.tsx`)
 - [ ] **ADAPTED FROM:** `CompleteProfile.tsx` in zamio_publisher copy
