@@ -5,49 +5,7 @@ import ProfileStep from './Onboarding/steps/ProfileStep';
 import StreamSetupStep from './Onboarding/steps/StreamSetupStep';
 import StaffStep from './Onboarding/steps/StaffStep';
 import ComplianceStep from './Onboarding/steps/ComplianceStep';
-
-const PaymentStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Payment Setup</h3>
-    <p className="text-slate-300 mb-6">Configure payment methods for station revenue collection.</p>
-    <div className="space-y-4 mb-6">
-      <div className="space-y-2">
-        <label className="text-slate-200">Payment Method</label>
-        <div className="space-y-2">
-          {[
-            { id: 'momo', label: 'Mobile Money (MTN, Vodafone, AirtelTigo)' },
-            { id: 'bank', label: 'Bank Transfer' }
-          ].map((method) => (
-            <label key={method.id} className="flex items-center space-x-3">
-              <input type="radio" name="paymentMethod" value={method.id} className="text-indigo-500" />
-              <span className="text-slate-200">{method.label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onSkip}
-        className="border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Skip
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Complete Setup
-      </button>
-    </div>
-  </div>
-);
+import PaymentStep from './Onboarding/steps/PaymentStep';
 
 export default function StationOnboarding() {
   const steps: OnboardingStep[] = [
