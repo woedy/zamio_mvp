@@ -29,12 +29,12 @@ Implementation of a comprehensive onboarding system for zamio_publisher (music p
 - [x] Company registration encouragement
 
 #### Step 2: Company Profile (`steps/CompanyProfileStep.tsx`)
-- [ ] **ADAPTED FROM:** `CompleteProfile.tsx` in zamio_publisher copy
-- [ ] Company information form (name, type, location, industry)
-- [ ] Company logo/photo upload with preview
-- [ ] Business registration details
-- [ ] Contact information and compliance officer
-- [ ] Industry certifications and licenses
+- [x] **ADAPTED FROM:** `CompleteProfile.tsx` in zamio_publisher copy
+- [x] Company information form (name, type, location, industry)
+- [x] Company logo/photo upload with preview
+- [x] Business registration details
+- [x] Contact information and compliance officer
+- [x] Industry certifications and licenses
 
 #### Step 3: Revenue Split Configuration (`steps/RevenueSplitStep.tsx`)
 - [ ] **ADAPTED FROM:** `RevenueSplit.tsx` in zamio_publisher copy
