@@ -17,11 +17,11 @@ Implementation of the multi-step station onboarding system for zamio_stations ba
   - [x] Station setup overview
   - [x] "What's Next" roadmap
 
-- [ ] **Profile Step** (`steps/ProfileStep.tsx`)
-  - [ ] Station profile form (name, type, location, coverage)
-  - [ ] Station logo/photo upload (demo)
-  - [ ] License and compliance information
-  - [ ] Contact information
+- [x] **Profile Step** (`steps/ProfileStep.tsx`)
+  - [x] Station profile form (name, type, location, coverage)
+  - [x] Station logo/photo upload (demo)
+  - [x] License and compliance information
+  - [x] Contact information
 
 - [ ] **Stream Setup Step** (`steps/StreamSetupStep.tsx`)
   - [ ] Stream link configuration

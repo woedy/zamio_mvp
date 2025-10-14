@@ -1,45 +1,7 @@
 import React from 'react';
 import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/OnboardingWizard';
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
-
-const ProfileStep: React.FC<any> = ({ onNext, onPrevious }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Station Profile Setup</h3>
-    <p className="text-slate-300 mb-6">Configure your station's basic information and licensing details.</p>
-    <div className="space-y-4 mb-6">
-      <div>
-        <label className="block text-sm font-medium text-slate-200 mb-2">Station Name</label>
-        <input
-          type="text"
-          className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-          placeholder="Enter your station name"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-200 mb-2">License Number</label>
-        <input
-          type="text"
-          className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-          placeholder="Broadcasting license number"
-        />
-      </div>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
+import ProfileStep from './Onboarding/steps/ProfileStep';
 
 const StreamSetupStep: React.FC<any> = ({ onNext, onPrevious }) => (
   <div className="py-8">

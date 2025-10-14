@@ -106,7 +106,7 @@ export default function OnboardingWizard({
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* Header */}
-      <div className="border-b border-white/10 bg-slate-900/50 backdrop-blur">
+      <div className="border-b border-white/10 bg-slate-900/50 backdrop-blur sticky top-0 z-10">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
