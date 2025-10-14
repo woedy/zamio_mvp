@@ -9,6 +9,8 @@ export default function SignUp() {
     firstName: '',
     lastName: '',
     email: '',
+    country: '',
+    phoneNumber: '',
     company: '',
     role: '',
     password: '',
@@ -86,21 +88,43 @@ export default function SignUp() {
               </div>
             </div>
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-                placeholder="admin@yourcompany.com"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="country" className="block text-sm font-medium text-slate-200 mb-2">
+                  Country
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                >
+                  <option value="">Select country</option>
+                  <option value="ghana">Ghana</option>
+                  <option value="nigeria">Nigeria</option>
+                  <option value="kenya">Kenya</option>
+                  <option value="south-africa">South Africa</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="usa">United States</option>
+                  <option value="canada">Canada</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-slate-200 mb-2">
+                  Phone number
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                  placeholder="+233 XX XXX XXXX"
+                />
+              </div>
             </div>
 
             <div>
