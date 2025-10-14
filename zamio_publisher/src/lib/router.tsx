@@ -22,6 +22,7 @@ import Landing from '../pages/Landing';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import EmailVerification from '../pages/EmailVerification';
+import PublisherOnboarding from '../pages/Authentication/PublisherOnboarding';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <EmailVerification />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/onboarding',
+    element: (
+      <PublicRoute>
+        <PublisherOnboarding />
       </PublicRoute>
     ),
   },

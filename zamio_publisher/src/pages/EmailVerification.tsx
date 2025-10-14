@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Users, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function EmailVerification() {
@@ -11,6 +11,8 @@ export default function EmailVerification() {
 
   // Demo verification - only accept "1234" as valid code
   const DEMO_VALID_CODE = '1234';
+
+  const navigate = useNavigate();
 
   const handleInputChange = (index: number, value: string) => {
     if (value.length > 1) return; // Only allow single digit
@@ -87,6 +89,18 @@ export default function EmailVerification() {
     inputRefs.current[0]?.focus();
   }, []);
 
+  // Redirect to onboarding after successful verification
+  useEffect(() => {
+    if (verificationStatus === 'success') {
+      // Small delay to show success message before redirect
+      const timer = setTimeout(() => {
+        navigate('/onboarding');
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [verificationStatus, navigate]);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-slate-950 text-white overflow-hidden">
       {/* Background Effects */}
@@ -142,7 +156,7 @@ export default function EmailVerification() {
             {verificationStatus === 'success' && (
               <div className="flex items-center justify-center text-green-400 text-sm mb-4">
                 <CheckCircle className="h-4 w-4 mr-2" />
-                Email verified successfully!
+                Email verified successfully! Redirecting to setup...
               </div>
             )}
 
