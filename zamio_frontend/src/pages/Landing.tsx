@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import type { LucideIcon } from 'lucide-react';
 import {
   ArrowRight,
@@ -270,12 +271,12 @@ export default function ZamIOLandingPage() {
           </div>
 
           <div className="hidden items-center space-x-3 md:flex">
-            <a
-              href="/sign-in"
+            <Link
+              to="/signin"
               className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:text-white"
             >
               Sign in
-            </a>
+            </Link>
             <a
               href="/sign-up"
               className="inline-flex items-center rounded-full bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
@@ -327,7 +328,7 @@ export default function ZamIOLandingPage() {
             </div>
             <div className="mt-6 flex flex-col gap-3">
               <a
-                href="/sign-in"
+                href="/signin"
                 className="rounded-full border border-white/20 px-4 py-2 text-center text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:text-white"
               >
                 Sign in
@@ -559,7 +560,7 @@ export default function ZamIOLandingPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <a
-                href="/sign-up"
+                href="/signup"
                 className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-indigo-700 transition hover:bg-indigo-100"
               >
                 Create account
