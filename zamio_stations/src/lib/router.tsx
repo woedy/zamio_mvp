@@ -19,7 +19,8 @@ const PublicRoute = ({ children }: { children: ReactNode }) => {
 
 // Import pages (assuming they exist in pages/)
 import Landing from '../pages/Landing';
-import Auth from '../pages/Auth';
+import SignIn from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 
 const router = createBrowserRouter([
@@ -35,7 +36,7 @@ const router = createBrowserRouter([
     path: '/signin',
     element: (
       <PublicRoute>
-        <Auth />
+        <SignIn />
       </PublicRoute>
     ),
   },
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
     path: '/signup',
     element: (
       <PublicRoute>
-        <Auth />
+        <SignUp />
       </PublicRoute>
     ),
   },

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { LucideIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import {
   ArrowRight,
   AudioWaveform,
@@ -270,19 +271,19 @@ export default function ZamIOLandingPage() {
           </div>
 
           <div className="hidden items-center space-x-3 md:flex">
-            <a
-              href="/sign-in"
+            <Link
+              to="/signin"
               className="rounded-full border border-white/20 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:text-white"
             >
               Sign in
-            </a>
-            <a
-              href="/sign-up"
+            </Link>
+            <Link
+              to="/signup"
               className="inline-flex items-center rounded-full bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
             >
               Sign Up
               <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
+            </Link>
           </div>
 
           <button
@@ -326,19 +327,19 @@ export default function ZamIOLandingPage() {
               ))}
             </div>
             <div className="mt-6 flex flex-col gap-3">
-              <a
-                href="/sign-in"
+              <Link
+                to="/signin"
                 className="rounded-full border border-white/20 px-4 py-2 text-center text-sm font-medium text-slate-200 transition hover:border-indigo-400 hover:text-white"
               >
                 Sign in
-              </a>
-              <a
-                href="/sign-up"
+              </Link>
+              <Link
+                to="/signup"
                 className="inline-flex items-center justify-center rounded-full bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400"
               >
                 Sign Up
                 <ArrowRight className="ml-2 h-4 w-4" />
-              </a>
+              </Link>
             </div>
           </div>
         ) : null}
@@ -358,19 +359,19 @@ export default function ZamIOLandingPage() {
               Zamio unifies detection, reconciliation, payouts, and compliance so Ghanaian and international catalogs receive every cedi they are owed.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <a
-                href="/sign-up"
+              <Link
+                to="/signup"
                 className="inline-flex items-center justify-center rounded-full bg-indigo-500 px-6 py-3 text-base font-semibold text-white transition hover:bg-indigo-400"
               >
                 Launch artist portal
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-base font-semibold text-slate-200 transition hover:border-indigo-400 hover:text-white"
               >
                 Talk to our team
-              </a>
+              </Link>
             </div>
             <ul className="mt-10 grid max-w-lg gap-4 text-sm text-slate-300">
               <li className="flex items-start space-x-3">
@@ -558,18 +559,18 @@ export default function ZamIOLandingPage() {
               Deploy Zamio across your artist, label, and society workflows with dedicated onboarding from our team.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a
-                href="/sign-up"
+              <Link
+                to="/signup"
                 className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-base font-semibold text-indigo-700 transition hover:bg-indigo-100"
               >
                 Create account
-              </a>
-              <a
-                href="/contact"
+              </Link>
+              <Link
+                to="/contact"
                 className="inline-flex items-center justify-center rounded-full border border-white/70 px-6 py-3 text-base font-semibold text-white transition hover:bg-white/10"
               >
                 Schedule stakeholder review
-              </a>
+              </Link>
             </div>
           </div>
         </section>
