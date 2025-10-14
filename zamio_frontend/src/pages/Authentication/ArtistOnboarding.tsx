@@ -2,41 +2,9 @@ import React from 'react';
 import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/OnboardingWizard';
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
 import ProfileStep from './Onboarding/steps/ProfileStep';
+import KYCStep from './Onboarding/steps/KYCStep';
 
 // Placeholder step components - will be replaced with actual implementations
-const KYCStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Identity Verification</h3>
-    <p className="text-slate-300 mb-6">
-      Upload KYC documents for account verification (recommended but optional).
-    </p>
-    <div className="border-2 border-dashed border-slate-600 rounded-lg p-8 text-center mb-6">
-      <p className="text-slate-400 mb-4">Document upload area</p>
-      <p className="text-sm text-slate-500">Drag and drop or click to upload</p>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onSkip}
-        className="border border-white/20 hover:border-indigo-400 text-slate-300 hover:text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Skip
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
-
 const SocialMediaStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
   <div className="py-8">
     <h3 className="text-2xl font-semibold text-white mb-4">Social Media</h3>

@@ -24,11 +24,11 @@ Implementation of the multi-step artist onboarding system for zamio_frontend bas
   - [x] Genre and style selection
   - [x] Social media links
 
-- [ ] **KYC Step** (`steps/KYCStep.tsx`)
-  - [ ] Identity verification form (demo)
-  - [ ] Document upload placeholders
-  - [ ] Verification status display
-  - [ ] Skip option for demo
+- [x] **KYC Step** (`steps/KYCStep.tsx`)
+  - [x] Identity verification form (demo)
+  - [x] Document upload placeholders
+  - [x] Verification status display
+  - [x] Skip option for demo
 
 - [ ] **Social Media Step** (`SocialMediaInfo.tsx`)
   - [ ] Social platform connection (demo)
