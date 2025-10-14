@@ -45,20 +45,20 @@ Implementation of a comprehensive onboarding system for zamio_publisher (music p
 - [x] Split templates and presets
 
 #### Step 4: Artist Management (`steps/ArtistManagementStep.tsx`)
-- [ ] **ADAPTED FROM:** `LinkArtist.tsx` in zamio_publisher copy
-- [ ] Artist search and discovery
-- [ ] Artist relationship management
-- [ ] Contract status tracking
-- [ ] Catalog management interface
-- [ ] Artist invitation system
+- [x] **ADAPTED FROM:** `LinkArtist.tsx` in zamio_publisher copy
+- [x] Artist search and discovery
+- [x] Artist relationship management
+- [x] Contract status tracking
+- [x] Catalog management interface
+- [x] Artist invitation system
 
 #### Step 5: Payment Setup (`steps/PublisherPaymentStep.tsx`)
-- [ ] **ADAPTED FROM:** `PaymentInfo.tsx` in zamio_publisher copy
-- [ ] Payment methods for royalty collection
-- [ ] Banking information for corporate accounts
-- [ ] Mobile money integration (Ghana-specific)
-- [ ] Currency preferences and payout schedules
-- [ ] Tax and withholding configuration
+- [x] **ADAPTED FROM:** `PaymentInfo.tsx` in zamio_publisher copy
+- [x] Payment methods for royalty collection
+- [x] Banking information for corporate accounts
+- [x] Mobile money integration (Ghana-specific)
+- [x] Currency preferences and payout schedules
+- [x] Tax and withholding configuration
 
 ### Phase 3: Publisher-Specific Features
 
