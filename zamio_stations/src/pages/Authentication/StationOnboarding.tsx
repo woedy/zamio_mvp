@@ -1,21 +1,6 @@
 import React from 'react';
 import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/OnboardingWizard';
-
-// Placeholder step components - will be replaced with actual implementations
-const WelcomeStep: React.FC<any> = ({ onNext }) => (
-  <div className="text-center py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Welcome to Zamio Stations!</h3>
-    <p className="text-slate-300 mb-6">
-      Ghana's premier radio station management platform. Let's get your station set up for music monitoring and royalty collection.
-    </p>
-    <button
-      onClick={onNext}
-      className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-3 rounded-lg transition-colors"
-    >
-      Get Started
-    </button>
-  </div>
-);
+import WelcomeStep from './Onboarding/steps/WelcomeStep';
 
 const ProfileStep: React.FC<any> = ({ onNext, onPrevious }) => (
   <div className="py-8">
