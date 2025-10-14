@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Music, ArrowRight, Zap } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight, Zap, TrendingUp } from 'lucide-react';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -9,12 +9,15 @@ export default function SignUp() {
     firstName: '',
     lastName: '',
     email: '',
+    country: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
-    agreeToTerms: false
+    agreeToTerms: false,
+    newsletter: false
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -101,6 +104,45 @@ export default function SignUp() {
               />
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="country" className="block text-sm font-medium text-slate-200 mb-2">
+                  Country
+                </label>
+                <select
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                >
+                  <option value="">Select country</option>
+                  <option value="ghana">Ghana</option>
+                  <option value="nigeria">Nigeria</option>
+                  <option value="kenya">Kenya</option>
+                  <option value="south-africa">South Africa</option>
+                  <option value="uk">United Kingdom</option>
+                  <option value="usa">United States</option>
+                  <option value="canada">Canada</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-slate-200 mb-2">
+                  Phone number
+                </label>
+                <input
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="tel"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                  placeholder="+233 XX XXX XXXX"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="password" className="block text-sm font-medium text-slate-200 mb-2">
                 Password
@@ -153,25 +195,41 @@ export default function SignUp() {
               </div>
             </div>
 
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                name="agreeToTerms"
-                id="agreeToTerms"
-                checked={formData.agreeToTerms}
-                onChange={handleChange}
-                className="rounded border-white/20 bg-slate-800 text-indigo-500 focus:ring-indigo-400"
-              />
-              <label htmlFor="agreeToTerms" className="ml-2 text-sm text-slate-300">
-                I agree to the{' '}
-                <Link to="/terms" className="text-indigo-400 hover:text-indigo-300">
-                  Terms of Service
-                </Link>{' '}
-                and{' '}
-                <Link to="/privacy" className="text-indigo-400 hover:text-indigo-300">
-                  Privacy Policy
-                </Link>
-              </label>
+            <div className="space-y-3">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="agreeToTerms"
+                  id="agreeToTerms"
+                  checked={formData.agreeToTerms}
+                  onChange={handleChange}
+                  className="rounded border-white/20 bg-slate-800 text-indigo-500 focus:ring-indigo-400"
+                />
+                <label htmlFor="agreeToTerms" className="ml-2 text-sm text-slate-300">
+                  I agree to the{' '}
+                  <Link to="/terms" className="text-indigo-400 hover:text-indigo-300">
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link to="/privacy" className="text-indigo-400 hover:text-indigo-300">
+                    Privacy Policy
+                  </Link>
+                </label>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  name="newsletter"
+                  id="newsletter"
+                  checked={formData.newsletter}
+                  onChange={handleChange}
+                  className="rounded border-white/20 bg-slate-800 text-indigo-500 focus:ring-indigo-400"
+                />
+                <label htmlFor="newsletter" className="ml-2 text-sm text-slate-300">
+                  Subscribe to updates about new features, industry insights, and platform news
+                </label>
+              </div>
             </div>
           </div>
 
@@ -194,11 +252,11 @@ export default function SignUp() {
         {/* Platform Features */}
         <div className="mt-6 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-4">
           <div className="flex items-center justify-center space-x-2 mb-2">
-            <Zap className="h-4 w-4 text-indigo-400" />
-            <span className="text-sm font-medium text-indigo-300">Platform Access</span>
+            <TrendingUp className="h-4 w-4 text-indigo-400" />
+            <span className="text-sm font-medium text-indigo-300">Platform Benefits</span>
           </div>
           <p className="text-xs text-slate-300 text-center">
-            Advanced royalty tracking • Multi-territory reporting • Real-time analytics • Professional tools
+            Comprehensive royalty tracking • Industry-specific tools • Real-time analytics • Global compliance
           </p>
         </div>
 
