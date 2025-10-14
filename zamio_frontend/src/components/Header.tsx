@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Search, Bell, Settings, User, LogOut, Menu, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { ThemeToggle } from '@zamio/ui';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -211,6 +212,9 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               )}
             </div>
+
+            {/* Theme Toggle */}
+            <ThemeToggle />
 
             {/* Settings */}
             <Link
