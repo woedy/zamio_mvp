@@ -11,6 +11,7 @@ import {
   Music,
   Play,
   Radar,
+  Radio,
   ShieldCheck,
   Sparkles,
   Users,
@@ -253,7 +254,7 @@ export default function ZamIOLandingPage() {
         <nav className="container mx-auto flex items-center justify-between px-4 py-6">
           <a href="/" className="flex items-center space-x-2">
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300">
-              <Music className="h-5 w-5" />
+              <Radio className="h-5 w-5" />
             </span>
             <span className="text-2xl font-semibold tracking-tight">Zamio Stations</span>
           </a>
@@ -581,7 +582,7 @@ export default function ZamIOLandingPage() {
           <div>
             <div className="flex items-center space-x-3">
               <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300">
-                <Music className="h-5 w-5" />
+                <Radio className="h-5 w-5" />
               </span>
               <span className="text-xl font-semibold">Zamio Stations</span>
             </div>
