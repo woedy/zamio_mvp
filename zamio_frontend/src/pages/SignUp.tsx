@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Zap, ArrowRight, BarChart3 } from 'lucide-react';
+import { Eye, EyeOff, Music, ArrowRight, Zap } from 'lucide-react';
 
-export default function SignIn() {
+export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    agreeToTerms: false
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -16,8 +24,8 @@ export default function SignIn() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign-in logic here
-    console.log('Sign-in attempt:', formData);
+    // Handle sign-up logic here
+    console.log('Sign-up attempt:', formData);
   };
 
   return (
@@ -36,13 +44,46 @@ export default function SignIn() {
             </span>
             <span className="text-2xl font-semibold tracking-tight">Zamio Platform</span>
           </Link>
-          <h2 className="text-3xl font-semibold">Welcome back</h2>
-          <p className="mt-2 text-slate-400">Sign in to access your comprehensive royalty platform</p>
+          <h2 className="text-3xl font-semibold">Join the platform</h2>
+          <p className="mt-2 text-slate-400">Access comprehensive music royalty management tools</p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6 rounded-2xl border border-white/10 bg-slate-900/60 p-8 shadow-2xl backdrop-blur">
           <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-slate-200 mb-2">
+                  First name
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                  placeholder="John"
+                />
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-slate-200 mb-2">
+                  Last name
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                  placeholder="Doe"
+                />
+              </div>
+            </div>
+
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-200 mb-2">
                 Email address
@@ -69,12 +110,12 @@ export default function SignIn() {
                   id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   required
                   value={formData.password}
                   onChange={handleChange}
                   className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 pr-12 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-                  placeholder="Enter your password"
+                  placeholder="Create a strong password"
                 />
                 <button
                   type="button"
@@ -86,20 +127,51 @@ export default function SignIn() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="rememberMe"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                  className="rounded border-white/20 bg-slate-800 text-indigo-500 focus:ring-indigo-400"
-                />
-                <span className="ml-2 text-sm text-slate-300">Remember me</span>
+            <div>
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-200 mb-2">
+                Confirm password
               </label>
-              <Link to="/forgot-password" className="text-sm text-indigo-400 hover:text-indigo-300">
-                Forgot password?
-              </Link>
+              <div className="relative">
+                <input
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
+                  required
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 pr-12 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
+                  placeholder="Confirm your password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                >
+                  {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                name="agreeToTerms"
+                id="agreeToTerms"
+                checked={formData.agreeToTerms}
+                onChange={handleChange}
+                className="rounded border-white/20 bg-slate-800 text-indigo-500 focus:ring-indigo-400"
+              />
+              <label htmlFor="agreeToTerms" className="ml-2 text-sm text-slate-300">
+                I agree to the{' '}
+                <Link to="/terms" className="text-indigo-400 hover:text-indigo-300">
+                  Terms of Service
+                </Link>{' '}
+                and{' '}
+                <Link to="/privacy" className="text-indigo-400 hover:text-indigo-300">
+                  Privacy Policy
+                </Link>
+              </label>
             </div>
           </div>
 
@@ -107,14 +179,14 @@ export default function SignIn() {
             type="submit"
             className="w-full inline-flex items-center justify-center rounded-lg bg-indigo-500 px-4 py-3 text-base font-semibold text-white transition hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
           >
-            Sign in
+            Create account
             <ArrowRight className="ml-2 h-4 w-4" />
           </button>
 
           <p className="text-center text-sm text-slate-400">
-            Don't have an account?{' '}
-            <Link to="/signup" className="font-medium text-indigo-400 hover:text-indigo-300">
-              Join the platform
+            Already have an account?{' '}
+            <Link to="/signin" className="font-medium text-indigo-400 hover:text-indigo-300">
+              Sign in
             </Link>
           </p>
         </form>
@@ -122,17 +194,17 @@ export default function SignIn() {
         {/* Platform Features */}
         <div className="mt-6 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-4">
           <div className="flex items-center justify-center space-x-2 mb-2">
-            <BarChart3 className="h-4 w-4 text-indigo-400" />
+            <Zap className="h-4 w-4 text-indigo-400" />
             <span className="text-sm font-medium text-indigo-300">Platform Access</span>
           </div>
           <p className="text-xs text-slate-300 text-center">
-            Advanced analytics • Multi-territory tracking • Real-time reporting • Professional management tools
+            Advanced royalty tracking • Multi-territory reporting • Real-time analytics • Professional tools
           </p>
         </div>
 
         {/* Footer */}
         <div className="mt-8 text-center text-sm text-slate-500">
-          <p>By signing in, you agree to our{' '}
+          <p>By creating an account, you agree to our{' '}
             <Link to="/terms" className="text-indigo-400 hover:text-indigo-300">Terms of Service</Link>{' '}
             and{' '}
             <Link to="/privacy" className="text-indigo-400 hover:text-indigo-300">Privacy Policy</Link>.

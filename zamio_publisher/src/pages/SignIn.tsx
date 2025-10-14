@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Zap, ArrowRight, BarChart3 } from 'lucide-react';
+import { Eye, EyeOff, Users, ArrowRight, UserCheck } from 'lucide-react';
 
 export default function SignIn() {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,12 +32,12 @@ export default function SignIn() {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center space-x-3 mb-4">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-300">
-              <Zap className="h-6 w-6" />
+              <Users className="h-6 w-6" />
             </span>
-            <span className="text-2xl font-semibold tracking-tight">Zamio Platform</span>
+            <span className="text-2xl font-semibold tracking-tight">Zamio Publisher</span>
           </Link>
           <h2 className="text-3xl font-semibold">Welcome back</h2>
-          <p className="mt-2 text-slate-400">Sign in to access your comprehensive royalty platform</p>
+          <p className="mt-2 text-slate-400">Sign in to manage your publishing dashboard</p>
         </div>
 
         {/* Form */}
@@ -56,7 +56,7 @@ export default function SignIn() {
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-                placeholder="you@musicprofessional.com"
+                placeholder="you@publisher.com"
               />
             </div>
 
@@ -112,21 +112,21 @@ export default function SignIn() {
           </button>
 
           <p className="text-center text-sm text-slate-400">
-            Don't have an account?{' '}
+            Don't have a publisher account?{' '}
             <Link to="/signup" className="font-medium text-indigo-400 hover:text-indigo-300">
-              Join the platform
+              Create publisher account
             </Link>
           </p>
         </form>
 
-        {/* Platform Features */}
+        {/* Publisher Features */}
         <div className="mt-6 rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-4">
           <div className="flex items-center justify-center space-x-2 mb-2">
-            <BarChart3 className="h-4 w-4 text-indigo-400" />
-            <span className="text-sm font-medium text-indigo-300">Platform Access</span>
+            <UserCheck className="h-4 w-4 text-indigo-400" />
+            <span className="text-sm font-medium text-indigo-300">Publisher Access</span>
           </div>
           <p className="text-xs text-slate-300 text-center">
-            Advanced analytics • Multi-territory tracking • Real-time reporting • Professional management tools
+            Manage catalogs • Track royalties • Artist relationships • Publishing analytics
           </p>
         </div>
 
