@@ -9,6 +9,7 @@
     "zamio_admin"
   ],
   "dependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
     "axios": "^1.12.2",
     "lucide-react": "^0.545.0",
     "react-router-dom": "^7.9.4"

@@ -3,8 +3,9 @@ import { ReactNode } from 'react';
 
 // Placeholder for auth check (to be implemented in later tasks)
 const isAuthenticated = () => {
-  // For now, always return false; integrate with auth context later
-  return false;
+  // For demo purposes, allow dashboard access after onboarding
+  // In production, this should check for valid authentication token/session
+  return true;
 };
 
 // Private Route Component
@@ -25,7 +26,8 @@ import EmailVerification from '../pages/EmailVerification';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 
-// Import onboarding components
+// Import layout and onboarding components
+import Layout from '../components/Layout';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
 import ArtistOnboarding from '../pages/Authentication/ArtistOnboarding';
 
@@ -74,9 +76,15 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: (
       <PrivateRoute>
-        <Dashboard />
+        <Layout />
       </PrivateRoute>
     ),
+    children: [
+      {
+        index: true,
+        element: <Dashboard />
+      }
+    ]
   },
   // Catch-all route for 404 errors - must be last
   {
