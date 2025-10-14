@@ -1,44 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
-  Play,
-  Music,
   TrendingUp,
+  Music,
   MapPin,
+  PieChart,
+  Award,
+  Download,
+  Share2,
+  Smartphone,
+  Eye,
+  TrendingDown,
+  ChevronUp,
+  ChevronDown,
+  Radio,
+  DollarSign,
+  Target,
+  Globe,
+  Info,
   Activity,
   Calendar,
   Settings,
   Bell,
   Search,
   Filter,
-  BarChart3,
-  PieChart,
-  Globe,
-  Zap,
-  Radio,
-  Volume2,
-  Eye,
-  Star,
-  Clock,
-  Target,
-  DollarSign,
-  Download,
-  Share2,
-  Mic,
-  Award,
-  Smartphone,
-  TrendingDown,
-  Users,
-  Headphones,
-  ChevronUp,
-  ChevronDown
+  BarChart3
 } from 'lucide-react';
 
 const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('monthly');
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedRegion, setSelectedRegion] = useState('all');
-
-  // Sample data for demonstration
+  const [chartFilters, setChartFilters] = useState({
+    airplayTrends: {
+      showPlays: true,
+      showEarnings: true
+    },
+    regionalPerformance: {
+      showPlays: true,
+      showEarnings: true,
+      showStations: true
+    }
+  });
+  const [tooltip, setTooltip] = useState<{
+    show: boolean;
+    content: string;
+    x: number;
+    y: number;
+  }>({
+    show: false,
+    content: '',
+    x: 0,
+    y: 0
+  });
   const statsData = {
     totalPlays: 45782,
     totalStations: 127,
@@ -207,6 +220,14 @@ const Dashboard = () => {
     }
   ];
 
+  // Sample target data for progress tracking
+  const monthlyTargets = {
+    airplayTarget: 20000,
+    earningsTarget: 1200,
+    stationsTarget: 150,
+    confidenceTarget: 95
+  };
+
   const performanceScore = {
     overall: 8.7,
     airplayGrowth: 9.2,
@@ -217,6 +238,45 @@ const Dashboard = () => {
 
   const maxPlays = Math.max(...playsOverTime.map((d) => d.airplay));
   const maxRegionalPlays = Math.max(...ghanaRegions.map((r) => r.plays));
+
+  const typographyScale = {
+    xs: '0.75rem',    // 12px
+    sm: '0.875rem',   // 14px
+    base: '1rem',     // 16px
+    lg: '1.125rem',   // 18px
+    xl: '1.25rem',    // 20px
+    '2xl': '1.5rem',  // 24px
+    '3xl': '1.875rem', // 30px
+    '4xl': '2.25rem', // 36px
+    '5xl': '3rem',    // 48px
+    '6xl': '3.75rem', // 60px
+    '7xl': '4.5rem',  // 72px
+    '8xl': '6rem',    // 96px
+    '9xl': '8rem',    // 128px
+  };
+
+  const showTooltip = (content: string, event: React.MouseEvent) => {
+    setTooltip({
+      show: true,
+      content,
+      x: event.clientX + 10,
+      y: event.clientY - 10
+    });
+  };
+
+  const hideTooltip = () => {
+    setTooltip(prev => ({ ...prev, show: false }));
+  };
+
+  const toggleChartFilter = (chartType: keyof typeof chartFilters, filterKey: string) => {
+    setChartFilters(prev => ({
+      ...prev,
+      [chartType]: {
+        ...prev[chartType],
+        [filterKey]: !prev[chartType][filterKey as keyof typeof prev[typeof chartType]]
+      }
+    }));
+  };
 
   const getRegionColors = (index: number) => {
     const colors = [
@@ -237,19 +297,34 @@ const Dashboard = () => {
       case 'down':
         return <ChevronDown className="w-4 h-4 text-red-500" />;
       default:
-        return <TrendingDown className="w-4 h-4 text-gray-500" />;
+        return <div className="w-4 h-4 rounded-full bg-blue-500"></div>;
     }
   };
 
   return (
     <>
+      {/* Tooltip */}
+      {tooltip.show && (
+        <div
+          className="fixed z-50 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-sm px-3 py-2 rounded-lg shadow-lg pointer-events-none transition-opacity duration-200"
+          style={{
+            left: tooltip.x,
+            top: tooltip.y,
+            transform: 'translate(-50%, -100%)'
+          }}
+        >
+          {tooltip.content}
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
+        </div>
+      )}
+
       {/* Page header */}
       <div className="border-b border-gray-200 dark:border-slate-700 mb-8">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
+              <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-light leading-relaxed">
                 Welcome back! Here's your music performance overview.
               </p>
             </div>
@@ -273,75 +348,150 @@ const Dashboard = () => {
       <div>
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-indigo-200 dark:hover:border-indigo-800">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Airplay</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-300 leading-relaxed">Total Airplay</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
                   {statsData.totalPlays.toLocaleString()}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-100/80 dark:bg-blue-900/50 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <Radio className="w-6 h-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
             <div className="mt-4 flex items-center text-sm">
-              <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+              <div className="flex items-center mr-2">
+                <TrendingUp className="w-4 h-4 text-green-500" />
+              </div>
               <span className="text-green-600 dark:text-green-400">+{statsData.growthRate}%</span>
               <span className="text-gray-500 dark:text-gray-400 ml-2">from last month</span>
             </div>
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-500 dark:text-gray-400">Monthly Target</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  {statsData.totalPlays.toLocaleString()} / {monthlyTargets.airplayTarget.toLocaleString()}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div
+                  className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min((statsData.totalPlays / monthlyTargets.airplayTarget) * 100, 100)}%` }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-green-200 dark:hover:border-green-800">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Earnings</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-300 leading-relaxed">Total Earnings</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
                   ₵{statsData.totalEarnings.toLocaleString()}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-green-100/80 dark:bg-green-900/50 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
             </div>
             <div className="mt-4 flex items-center text-sm">
-              <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
+              <div className="flex items-center mr-2">
+                <TrendingUp className="w-4 h-4 text-green-500" />
+              </div>
               <span className="text-green-600 dark:text-green-400">+18.2%</span>
               <span className="text-gray-500 dark:text-gray-400 ml-2">from last month</span>
             </div>
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-500 dark:text-gray-400">Monthly Target</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  ₵{statsData.totalEarnings.toLocaleString()} / ₵{monthlyTargets.earningsTarget.toLocaleString()}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div
+                  className="bg-green-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min((statsData.totalEarnings / monthlyTargets.earningsTarget) * 100, 100)}%` }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-orange-200 dark:hover:border-orange-800">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Active Stations</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-300 leading-relaxed">Active Stations</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white leading-tight">
                   {statsData.totalStations}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/50 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-orange-100/80 dark:bg-orange-900/50 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <Globe className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Across Ghana</p>
+            <div className="mt-4 flex items-center justify-between text-sm">
+              <span className="text-gray-500 dark:text-gray-400">Across Ghana</span>
+              <div className="flex items-center">
+                <div className="w-8 h-1 bg-gray-200 dark:bg-slate-600 rounded-full mr-2">
+                  <div className="w-full h-full bg-orange-400 rounded-full" style={{ width: `${(statsData.totalStations / monthlyTargets.stationsTarget) * 100}%` }}></div>
+                </div>
+                <span className="text-orange-600 dark:text-orange-400 text-xs font-medium">
+                  {Math.round((statsData.totalStations / monthlyTargets.stationsTarget) * 100)}%
+                </span>
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-500 dark:text-gray-400">Monthly Target</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  {statsData.totalStations} / {monthlyTargets.stationsTarget}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div
+                  className="bg-orange-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min((statsData.totalStations / monthlyTargets.stationsTarget) * 100, 100)}%` }}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-purple-200 dark:hover:border-purple-800">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Avg. Confidence</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-300 leading-relaxed">Avg. Confidence</p>
+                <p className={`text-2xl sm:text-3xl font-bold leading-tight ${
+                  statsData.avgConfidence >= 90 ? 'text-green-600 dark:text-green-400' :
+                  statsData.avgConfidence >= 80 ? 'text-blue-600 dark:text-blue-400' : 'text-red-600 dark:text-red-400'
+                }`}>
                   {statsData.avgConfidence}%
                 </p>
               </div>
-              <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-purple-100/80 dark:bg-purple-900/50 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
             </div>
-            <div className="mt-4">
-              <p className="text-sm text-gray-500 dark:text-gray-400">Track recognition rate</p>
+            <div className="mt-4 flex items-center justify-between text-sm">
+              <span className="text-gray-500 dark:text-gray-400">Track recognition rate</span>
+              <div className="flex items-center">
+                <ChevronUp className="w-3 h-3 text-green-500 mr-1" />
+                <span className="text-green-600 dark:text-green-400 text-xs font-medium">+2.1%</span>
+              </div>
+            </div>
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-500 dark:text-gray-400">Target</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  {statsData.avgConfidence}% / {monthlyTargets.confidenceTarget}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div
+                  className="bg-purple-500 h-2 rounded-full transition-all duration-500"
+                  style={{ width: `${Math.min((statsData.avgConfidence / monthlyTargets.confidenceTarget) * 100, 100)}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -351,21 +501,35 @@ const Dashboard = () => {
           {/* Left Column - Charts and Data */}
           <div className="lg:col-span-2 space-y-6">
             {/* Plays Over Time Chart */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                   <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
                   Airplay Trends
                 </h2>
                 <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Plays</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Earnings</span>
-                  </div>
+                  <button
+                    className={`flex items-center space-x-2 px-2 py-1 rounded-md transition-colors ${
+                      chartFilters.airplayTrends.showPlays
+                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700'
+                    }`}
+                    onClick={() => toggleChartFilter('airplayTrends', 'showPlays')}
+                  >
+                    <div className={`w-3 h-3 rounded-full ${chartFilters.airplayTrends.showPlays ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                    <span className="text-sm">Plays</span>
+                  </button>
+                  <button
+                    className={`flex items-center space-x-2 px-2 py-1 rounded-md transition-colors ${
+                      chartFilters.airplayTrends.showEarnings
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700'
+                    }`}
+                    onClick={() => toggleChartFilter('airplayTrends', 'showEarnings')}
+                  >
+                    <div className={`w-3 h-3 rounded-full ${chartFilters.airplayTrends.showEarnings ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-600'}`}></div>
+                    <span className="text-sm">Earnings</span>
+                  </button>
                 </div>
               </div>
               <div className="space-y-4">
@@ -376,10 +540,12 @@ const Dashboard = () => {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-2">
-                        <div className="flex-1 bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                        <div className="flex-1 bg-gray-200 dark:bg-slate-700 rounded-full h-2 relative group">
                           <div
-                            className="bg-blue-500 h-2 rounded-full"
+                            className="bg-blue-500 h-2 rounded-full transition-all duration-300 cursor-pointer"
                             style={{ width: `${(month.airplay / maxPlays) * 100}%` }}
+                            onMouseEnter={(e) => showTooltip(`${month.airplay.toLocaleString()} plays`, e)}
+                            onMouseLeave={hideTooltip}
                           />
                         </div>
                         <span className="text-sm text-gray-600 dark:text-gray-400 w-16">
@@ -387,7 +553,11 @@ const Dashboard = () => {
                         </span>
                       </div>
                     </div>
-                    <div className="w-20 text-sm text-green-600 dark:text-green-400 text-right">
+                    <div
+                      className="w-20 text-sm text-green-600 dark:text-green-400 text-right cursor-pointer"
+                      onMouseEnter={(e) => showTooltip(`₵${month.earnings.toFixed(0)} earned`, e)}
+                      onMouseLeave={hideTooltip}
+                    >
                       ₵{month.earnings.toFixed(0)}
                     </div>
                   </div>
@@ -396,9 +566,9 @@ const Dashboard = () => {
             </div>
 
             {/* Top Songs */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                   <Music className="w-5 h-5 mr-2 text-purple-500" />
                   Top Performing Tracks
                 </h2>
@@ -408,34 +578,44 @@ const Dashboard = () => {
               </div>
               <div className="space-y-4">
                 {topSongs.map((song, index) => (
-                  <div key={song.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+                  <div key={song.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg space-y-2 sm:space-y-0">
                     <div className="flex items-center space-x-4">
                       <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold">
                         {index + 1}
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900 dark:text-white">
+                        <h3 className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
                           {song.title}
                         </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-light leading-relaxed">
                           {song.stations} stations • {song.confidence}% accuracy
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 text-sm">
                       <div className="text-right">
-                        <p className="font-semibold text-gray-900 dark:text-white">
+                        <p
+                          className="font-semibold text-gray-900 dark:text-white cursor-pointer text-sm sm:text-base"
+                          onMouseEnter={(e) => showTooltip(`${song.plays.toLocaleString()} total plays across ${song.stations} stations`, e)}
+                          onMouseLeave={hideTooltip}
+                        >
                           {song.plays.toLocaleString()}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">plays</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">plays</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold text-green-600 dark:text-green-400">
+                        <p
+                          className="font-semibold text-green-600 dark:text-green-400 cursor-pointer text-sm sm:text-base"
+                          onMouseEnter={(e) => showTooltip(`₵${song.earnings.toFixed(2)} earned from ${song.plays.toLocaleString()} plays`, e)}
+                          onMouseLeave={hideTooltip}
+                        >
                           ₵{song.earnings.toFixed(2)}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">earned</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">earned</p>
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center cursor-pointer"
+                           onMouseEnter={(e) => showTooltip(`Trend: ${song.trend === 'up' ? 'Increasing' : song.trend === 'down' ? 'Decreasing' : 'Stable'} performance`, e)}
+                           onMouseLeave={hideTooltip}>
                         {getTrendIcon(song.trend)}
                       </div>
                     </div>
@@ -445,9 +625,9 @@ const Dashboard = () => {
             </div>
 
             {/* Regional Performance */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                   <MapPin className="w-5 h-5 mr-2 text-green-500" />
                   Regional Performance
                 </h2>
@@ -466,16 +646,16 @@ const Dashboard = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {ghanaRegions.map((region, index) => (
-                  <div key={region.region} className="p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-medium text-gray-900 dark:text-white">
+                  <div key={region.region} className="p-3 sm:p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 space-y-2 sm:space-y-0">
+                      <h3 className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
                         {region.region}
                       </h3>
                       <div className="flex items-center space-x-2">
-                        <span className={`text-sm font-medium ${
+                        <span className={`text-xs sm:text-sm font-medium ${
                           region.trend === 'up' ? 'text-green-600 dark:text-green-400' :
                           region.trend === 'down' ? 'text-red-600 dark:text-red-400' :
-                          'text-gray-600 dark:text-gray-400'
+                          'text-blue-600 dark:text-blue-400'
                         }`}>
                           {region.trend === 'up' ? '+' : region.trend === 'down' ? '-' : ''}
                           {region.growth}%
@@ -484,29 +664,43 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Plays</span>
-                        <span className="font-medium text-gray-900 dark:text-white">
+                      <div className="flex justify-between text-xs sm:text-sm">
+                        <span className="text-gray-700 dark:text-gray-300 font-light leading-relaxed">Plays</span>
+                        <span
+                          className="font-medium text-gray-900 dark:text-white cursor-pointer"
+                          onMouseEnter={(e) => showTooltip(`${region.plays.toLocaleString()} total plays in ${region.region}`, e)}
+                          onMouseLeave={hideTooltip}
+                        >
                           {region.plays.toLocaleString()}
                         </span>
                       </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Earnings</span>
-                        <span className="font-medium text-green-600 dark:text-green-400">
+                      <div className="flex justify-between text-xs sm:text-sm">
+                        <span className="text-gray-700 dark:text-gray-300 font-light leading-relaxed">Earnings</span>
+                        <span
+                          className="font-medium text-green-600 dark:text-green-400 cursor-pointer"
+                          onMouseEnter={(e) => showTooltip(`₵${region.earnings.toFixed(2)} earned from ${region.plays.toLocaleString()} plays`, e)}
+                          onMouseLeave={hideTooltip}
+                        >
                           ₵{region.earnings.toFixed(2)}
                         </span>
                       </div>
-                      <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Stations</span>
-                        <span className="font-medium text-orange-600 dark:text-orange-400">
+                      <div className="flex justify-between text-xs sm:text-sm">
+                        <span className="text-gray-700 dark:text-gray-300 font-light leading-relaxed">Stations</span>
+                        <span
+                          className="font-medium text-orange-600 dark:text-orange-400 cursor-pointer"
+                          onMouseEnter={(e) => showTooltip(`${region.stations} active stations in ${region.region}`, e)}
+                          onMouseLeave={hideTooltip}
+                        >
                           {region.stations}
                         </span>
                       </div>
                     </div>
-                    <div className="mt-3 w-full bg-gray-200 dark:bg-slate-600 rounded-full h-2">
+                    <div className="mt-3 w-full bg-gray-200 dark:bg-slate-600 rounded-full h-2 relative group">
                       <div
-                        className={`h-full bg-gradient-to-r ${getRegionColors(index)} rounded-full`}
+                        className={`h-full bg-gradient-to-r ${getRegionColors(index)} rounded-full cursor-pointer transition-all duration-300`}
                         style={{ width: `${(region.plays / maxRegionalPlays) * 100}%` }}
+                        onMouseEnter={(e) => showTooltip(`${Math.round((region.plays / maxRegionalPlays) * 100)}% of total regional plays`, e)}
+                        onMouseLeave={hideTooltip}
                       />
                     </div>
                   </div>
@@ -518,9 +712,9 @@ const Dashboard = () => {
           {/* Right Column - Sidebar widgets */}
           <div className="space-y-6">
             {/* Station Breakdown */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                   <PieChart className="w-5 h-5 mr-2 text-yellow-500" />
                   Top Stations
                 </h2>
@@ -537,7 +731,7 @@ const Dashboard = () => {
                           {station.percentage}%
                         </span>
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                      <div className="text-xs text-gray-600 dark:text-gray-300 mb-2 leading-relaxed">
                         {station.region} • {station.type}
                       </div>
                       <div className="w-full bg-gray-200 dark:bg-slate-600 rounded-full h-2">
@@ -553,15 +747,18 @@ const Dashboard = () => {
             </div>
 
             {/* Performance Score */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white flex items-center">
                   <Award className="w-5 h-5 mr-2 text-purple-500" />
                   Performance Score
                 </h2>
               </div>
               <div className="text-center mb-6">
-                <div className="text-4xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
+                <div className={`text-3xl sm:text-4xl font-bold mb-2 ${
+                  performanceScore.overall >= 8 ? 'text-green-600 dark:text-green-400' :
+                  performanceScore.overall >= 6 ? 'text-blue-600 dark:text-blue-400' : 'text-red-600 dark:text-red-400'
+                }`}>
                   {performanceScore.overall}
                 </div>
                 <div className="text-sm text-gray-500 dark:text-gray-400">Out of 10</div>
@@ -570,8 +767,16 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Airplay Growth</span>
                   <div className="flex items-center space-x-2">
-                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
-                      <div className="bg-green-500 h-2 rounded-full" style={{ width: `${performanceScore.airplayGrowth * 10}%` }} />
+                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2 relative group">
+                      <div
+                        className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
+                          performanceScore.airplayGrowth >= 8 ? 'bg-green-500' :
+                          performanceScore.airplayGrowth >= 6 ? 'bg-blue-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${performanceScore.airplayGrowth * 10}%` }}
+                        onMouseEnter={(e) => showTooltip(`${performanceScore.airplayGrowth}/10 - ${performanceScore.airplayGrowth >= 8 ? 'Excellent' : performanceScore.airplayGrowth >= 6 ? 'Good' : 'Needs Improvement'} airplay growth rate`, e)}
+                        onMouseLeave={hideTooltip}
+                      />
                     </div>
                     <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {performanceScore.airplayGrowth}
@@ -581,8 +786,16 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Regional Reach</span>
                   <div className="flex items-center space-x-2">
-                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
-                      <div className="bg-blue-500 h-2 rounded-full" style={{ width: `${performanceScore.regionalReach * 10}%` }} />
+                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2 relative group">
+                      <div
+                        className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
+                          performanceScore.regionalReach >= 8 ? 'bg-green-500' :
+                          performanceScore.regionalReach >= 6 ? 'bg-blue-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${performanceScore.regionalReach * 10}%` }}
+                        onMouseEnter={(e) => showTooltip(`${performanceScore.regionalReach}/10 - ${performanceScore.regionalReach >= 8 ? 'Excellent' : performanceScore.regionalReach >= 6 ? 'Good' : 'Needs Improvement'} regional coverage`, e)}
+                        onMouseLeave={hideTooltip}
+                      />
                     </div>
                     <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {performanceScore.regionalReach}
@@ -592,8 +805,16 @@ const Dashboard = () => {
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-600 dark:text-gray-400">Track Quality</span>
                   <div className="flex items-center space-x-2">
-                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
-                      <div className="bg-purple-500 h-2 rounded-full" style={{ width: `${performanceScore.trackQuality * 10}%` }} />
+                    <div className="w-16 bg-gray-200 dark:bg-slate-600 rounded-full h-2 relative group">
+                      <div
+                        className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
+                          performanceScore.trackQuality >= 8 ? 'bg-green-500' :
+                          performanceScore.trackQuality >= 6 ? 'bg-blue-500' : 'bg-red-500'
+                        }`}
+                        style={{ width: `${performanceScore.trackQuality * 10}%` }}
+                        onMouseEnter={(e) => showTooltip(`${performanceScore.trackQuality}/10 - ${performanceScore.trackQuality >= 8 ? 'Excellent' : performanceScore.trackQuality >= 6 ? 'Good' : 'Needs Improvement'} track recognition`, e)}
+                        onMouseLeave={hideTooltip}
+                      />
                     </div>
                     <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {performanceScore.trackQuality}
@@ -604,8 +825,8 @@ const Dashboard = () => {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-gray-200/50 dark:border-slate-700/50 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
+              <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
                 Quick Actions
               </h2>
               <div className="space-y-3">
