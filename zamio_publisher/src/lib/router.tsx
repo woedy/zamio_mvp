@@ -21,6 +21,7 @@ const PublicRoute = ({ children }: { children: ReactNode }) => {
 import Landing from '../pages/Landing';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import EmailVerification from '../pages/EmailVerification';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <SignUp />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/verify-email',
+    element: (
+      <PublicRoute>
+        <EmailVerification />
       </PublicRoute>
     ),
   },

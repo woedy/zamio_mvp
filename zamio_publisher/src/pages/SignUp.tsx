@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Users, ArrowRight, UserCheck } from 'lucide-react';
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,8 +27,24 @@ export default function SignUp() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign-up logic here
-    console.log('Sign-up attempt:', formData);
+
+    // Basic validation
+    if (formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    if (!formData.agreeToTerms) {
+      alert('Please agree to the Terms of Service');
+      return;
+    }
+
+    // Simulate successful signup
+    console.log('Publisher registration successful:', formData);
+
+    // In a real app, this would be an API call that sends verification email
+    // For demo purposes, we'll immediately redirect to verification page
+    navigate('/verify-email');
   };
 
   return (
