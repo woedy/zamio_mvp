@@ -1,47 +1,9 @@
 import React from 'react';
 import OnboardingWizard, { OnboardingStep } from '../../components/onboarding/OnboardingWizard';
 import WelcomeStep from './Onboarding/steps/WelcomeStep';
+import ProfileStep from './Onboarding/steps/ProfileStep';
 
 // Placeholder step components - will be replaced with actual implementations
-const ProfileStep: React.FC<any> = ({ onNext, onPrevious }) => (
-  <div className="py-8">
-    <h3 className="text-2xl font-semibold text-white mb-4">Complete Your Profile</h3>
-    <p className="text-slate-300 mb-6">Tell us about yourself and your music.</p>
-    <div className="space-y-4 mb-6">
-      <div>
-        <label className="block text-sm font-medium text-slate-200 mb-2">Artist Name</label>
-        <input
-          type="text"
-          className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-          placeholder="Your artist name"
-        />
-      </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-200 mb-2">Bio</label>
-        <textarea
-          className="w-full rounded-lg border border-white/20 bg-slate-800/50 px-4 py-3 text-white placeholder:text-slate-400 focus:border-indigo-400 focus:outline-none focus:ring-1 focus:ring-indigo-400"
-          placeholder="Tell us about your music journey..."
-          rows={4}
-        />
-      </div>
-    </div>
-    <div className="flex space-x-3">
-      <button
-        onClick={onPrevious}
-        className="bg-slate-800/50 hover:bg-slate-800 text-white px-4 py-2 rounded-lg transition-colors"
-      >
-        Previous
-      </button>
-      <button
-        onClick={onNext}
-        className="bg-indigo-500 hover:bg-indigo-400 text-white px-6 py-2 rounded-lg transition-colors"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-);
-
 const KYCStep: React.FC<any> = ({ onNext, onPrevious, onSkip }) => (
   <div className="py-8">
     <h3 className="text-2xl font-semibold text-white mb-4">Identity Verification</h3>

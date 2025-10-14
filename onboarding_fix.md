@@ -18,11 +18,11 @@ Implementation of the multi-step artist onboarding system for zamio_frontend bas
   - [x] Platform benefits overview
   - [x] "What's Next" roadmap
 
-- [ ] **Profile Step** (`steps/ProfileStep.tsx`)
-  - [ ] Artist profile form (name, bio, contact info)
-  - [ ] Profile picture upload (demo)
-  - [ ] Genre and style selection
-  - [ ] Social media links
+- [x] **Profile Step** (`steps/ProfileStep.tsx`)
+  - [x] Artist profile form (name, bio, contact info)
+  - [x] Profile picture upload (demo)
+  - [x] Genre and style selection
+  - [x] Social media links
 
 - [ ] **KYC Step** (`steps/KYCStep.tsx`)
   - [ ] Identity verification form (demo)
