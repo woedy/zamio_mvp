@@ -37,12 +37,12 @@ Implementation of a comprehensive onboarding system for zamio_publisher (music p
 - [x] Industry certifications and licenses
 
 #### Step 3: Revenue Split Configuration (`steps/RevenueSplitStep.tsx`)
-- [ ] **ADAPTED FROM:** `RevenueSplit.tsx` in zamio_publisher copy
-- [ ] Writer vs Publisher split percentages
-- [ ] Multiple territory splits (Ghana, International)
-- [ ] Performance rights vs Mechanical rights splits
-- [ ] Split validation (must total 100%)
-- [ ] Split templates and presets
+- [x] **ADAPTED FROM:** `RevenueSplit.tsx` in zamio_publisher copy
+- [x] Writer vs Publisher split percentages
+- [x] Multiple territory splits (Ghana, International)
+- [x] Performance rights vs Mechanical rights splits
+- [x] Split validation (must total 100%)
+- [x] Split templates and presets
 
 #### Step 4: Artist Management (`steps/ArtistManagementStep.tsx`)
 - [ ] **ADAPTED FROM:** `LinkArtist.tsx` in zamio_publisher copy
