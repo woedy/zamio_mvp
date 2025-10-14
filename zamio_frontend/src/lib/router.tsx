@@ -25,6 +25,10 @@ import EmailVerification from '../pages/EmailVerification';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 
+// Import onboarding components
+import OnboardingWizard from '../components/onboarding/OnboardingWizard';
+import ArtistOnboarding from '../pages/Authentication/ArtistOnboarding';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -55,6 +59,14 @@ const router = createBrowserRouter([
     element: (
       <PublicRoute>
         <EmailVerification />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: '/onboarding',
+    element: (
+      <PublicRoute>
+        <ArtistOnboarding />
       </PublicRoute>
     ),
   },

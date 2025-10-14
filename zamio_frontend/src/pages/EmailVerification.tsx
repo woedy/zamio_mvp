@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, TrendingUp, CheckCircle, AlertCircle } from 'lucide-react';
 
 export default function EmailVerification() {
@@ -8,6 +8,7 @@ export default function EmailVerification() {
   const [verificationStatus, setVerificationStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const navigate = useNavigate();
 
   // Demo verification - only accept "1234" as valid code
   const DEMO_VALID_CODE = '1234';
@@ -65,6 +66,10 @@ export default function EmailVerification() {
 
     if (code === DEMO_VALID_CODE) {
       setVerificationStatus('success');
+      // Redirect to onboarding after successful verification
+      setTimeout(() => {
+        navigate('/onboarding');
+      }, 1500);
     } else {
       setErrorMessage('Invalid verification code. Try 1234 for demo.');
       setVerificationStatus('error');
