@@ -35,11 +35,11 @@ Implementation of the multi-step artist onboarding system for zamio_frontend bas
   - [x] Profile linking
   - [x] Verification badges
 
-- [ ] **Payment Info Step** (`PaymentInfo.tsx`)
-  - [ ] Payment method selection (demo)
-  - [ ] Bank account setup (demo)
-  - [ ] Mobile money integration (demo)
-  - [ ] Currency selection
+- [x] **Payment Info Step** (`PaymentInfo.tsx`)
+  - [x] Payment method selection (demo)
+  - [x] Bank account setup (demo)
+  - [x] Mobile money integration (demo)
+  - [x] Currency selection
 
 - [ ] **Publisher Step** (`Publisher.tsx`)
   - [ ] Publisher search/lookup (demo)
