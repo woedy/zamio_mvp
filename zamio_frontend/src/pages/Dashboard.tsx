@@ -26,6 +26,8 @@ import {
   BarChart3
 } from 'lucide-react';
 
+import HoverCard from '../components/HoverCard';
+
 const Dashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('monthly');
   const [activeTab, setActiveTab] = useState('overview');
@@ -309,8 +311,6 @@ const Dashboard = () => {
   const [viewTransition, setViewTransition] = useState(false);
   const [activeView, setActiveView] = useState('overview');
 
-  const [isLoadingCharts, setIsLoadingCharts] = useState(true);
-
   useEffect(() => {
     // Simulate chart loading
     const timer = setTimeout(() => {
@@ -418,13 +418,13 @@ const Dashboard = () => {
       <div>
         {/* Stats Cards */}
         <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 ${viewTransitionStyles}`}>
-          <div className="bg-gradient-to-br from-red-50/90 via-orange-50/80 to-pink-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-red-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-red-300 dark:hover:border-red-700/70 group cursor-pointer">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">Total Airplay</p>
-                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
-                  {statsData.totalPlays.toLocaleString()}
-                </p>
+            <div className="bg-gradient-to-br from-red-50/90 via-orange-50/80 to-pink-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-red-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-red-300 dark:hover:border-red-700/70 group cursor-pointer">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs sm:text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">Total Airplay</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
+                    {statsData.totalPlays.toLocaleString()}
+                  </p>
               </div>
               <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900/60 dark:to-orange-900/60 rounded-lg flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
                 <Radio className="w-6 h-6 text-red-600 dark:text-red-400" />
@@ -661,7 +661,7 @@ const Dashboard = () => {
               </div>
               <div className="space-y-4">
                 {topSongs.map((song, index) => (
-                  <div key={song.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 dark:bg-slate-700 rounded-lg space-y-2 sm:space-y-0 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-md transition-all duration-300 cursor-pointer group">
+                  <div key={song.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-4 bg-gray-50 dark:bg-slate-700 rounded-lg space-y-2 sm:space-y-0 hover:bg-gradient-to-r hover:from-purple-50/50 hover:to-pink-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-md transition-all duration-300 cursor-pointer group min-h-[60px]">
                     <div className="flex items-center space-x-4">
                       <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold group-hover:scale-110 transition-transform duration-300">
                         {index + 1}
@@ -677,13 +677,21 @@ const Dashboard = () => {
                     </div>
                     <div className="flex items-center space-x-4 text-sm">
                       <div className="text-right">
-                        <p
-                          className="font-semibold text-gray-900 dark:text-white cursor-pointer text-sm sm:text-base group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300"
-                          onMouseEnter={(e) => showTooltip(`${song.plays.toLocaleString()} total plays across ${song.stations} stations`, e)}
-                          onMouseLeave={hideTooltip}
-                        >
-                          {song.plays.toLocaleString()}
-                        </p>
+                        <HoverCard
+                          trigger={
+                            <p
+                              className="font-semibold text-gray-900 dark:text-white cursor-pointer text-sm sm:text-base group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300"
+                            >
+                              {song.plays.toLocaleString()}
+                            </p>
+                          }
+                          content={[
+                            { label: 'Total Plays', value: song.plays.toLocaleString() },
+                            { label: 'Stations', value: `${song.stations}` },
+                            { label: 'Trend', value: song.trend === 'up' ? 'Increasing' : song.trend === 'down' ? 'Decreasing' : 'Stable' }
+                          ]}
+                          position="top"
+                        />
                         <p className="text-xs text-gray-500 dark:text-gray-400">plays</p>
                       </div>
                       <div className="text-right">
@@ -729,7 +737,7 @@ const Dashboard = () => {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {ghanaRegions.map((region, index) => (
-                  <div key={region.region} className="p-3 sm:p-4 bg-gray-50 dark:bg-slate-700 rounded-lg hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-md transition-all duration-300 cursor-pointer group">
+                  <div key={region.region} className="p-4 sm:p-3 bg-gray-50 dark:bg-slate-700 rounded-lg hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-md transition-all duration-300 cursor-pointer group min-h-[60px]">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 space-y-2 sm:space-y-0">
                       <h3 className="font-medium text-gray-900 dark:text-white text-sm sm:text-base group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
                         {region.region}
@@ -843,7 +851,7 @@ const Dashboard = () => {
               </div>
               <div className="space-y-4">
                 {stationBreakdown.map((station, index) => (
-                  <div key={station.station} className="flex items-center space-x-3 hover:bg-gradient-to-r hover:from-amber-50/50 hover:to-orange-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-sm transition-all duration-300 cursor-pointer group p-2 rounded-lg">
+                  <div key={station.station} className="flex items-center space-x-3 hover:bg-gradient-to-r hover:from-amber-50/50 hover:to-orange-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-sm transition-all duration-300 cursor-pointer group p-3 sm:p-2 rounded-lg min-h-[50px]">
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
                         <span className="text-sm font-medium text-gray-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">

@@ -41,11 +41,16 @@ This document outlines the prioritized design improvements for the Zamio music a
 - [x] Implement smooth transitions between data views
 - [x] Add loading skeleton screens for chart areas
 - [x] Improve button states and visual feedback
-- [ ] Create hover cards showing additional info on data points
+- [x] Create hover cards showing additional info on data points
+  - [x] Design hover card component structure (layout, positioning)
+  - [x] Implement hover detection logic (onMouseEnter/Leave events)
+  - [x] Style hover cards (animations, responsiveness)
+  - [x] Integrate data fetching for additional info (metrics from props/API)
+  - [x] Test and refine across dashboard components
 
 ### 📱 Mobile Responsiveness
-- [ ] Implement touch-friendly data tables with larger tap targets
-- [ ] Add collapsible sections for mobile navigation
+- [x] Implement touch-friendly data tables with larger tap targets
+- [x] Add collapsible sections for mobile navigation
 - [ ] Improve mobile chart responsiveness
 - [ ] Add swipe gestures for data navigation
 
