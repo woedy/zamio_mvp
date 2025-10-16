@@ -4,26 +4,30 @@ import {
   Play,
   Pause,
   Volume2,
-  Download,
-  Share2,
+  VolumeX,
   Heart,
-  Clock,
-  Calendar,
-  BarChart3,
-  MapPin,
-  Users,
-  Music,
-  ArrowLeft,
+  Share2,
   Plus,
-  Eye,
-  Trash2,
-  RefreshCw,
+  Users,
+  DollarSign,
   TrendingUp,
+  Clock,
   Globe,
   FileText,
-  DollarSign,
+  BarChart3,
+  MapPin,
+  Music,
+  Calendar,
+  ArrowLeft,
+  ChevronRight,
+  RotateCcw,
+  Download,
+  Search,
   Award,
-  Target
+  Target,
+  Filter,
+  HelpCircle,
+  Settings
 } from 'lucide-react';
 
 // Mock track data - enhanced with more realistic structure matching reference
@@ -202,180 +206,264 @@ const TrackDetails: React.FC = () => {
 
   return (
     <>
-      {/* Back Navigation */}
+      {/* Enhanced Back Navigation with Breadcrumbs */}
       <div className="mb-6">
-        <button
-          onClick={() => navigate('/dashboard/all-artist-songs')}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Upload Management</span>
-        </button>
+        <nav className="flex items-center space-x-2 text-sm" aria-label="Breadcrumb">
+          <button
+            onClick={() => navigate('/dashboard/all-artist-songs')}
+            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-lg p-1"
+            aria-label="Go back to upload management"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span className="hidden sm:inline">Back to Upload Management</span>
+            <span className="sm:hidden">Back</span>
+          </button>
+          <ChevronRight className="w-4 h-4 text-gray-400" />
+          <span className="text-gray-900 dark:text-white font-medium">Track Details</span>
+          <ChevronRight className="w-4 h-4 text-gray-400" />
+          <span className="text-purple-600 dark:text-purple-400 font-medium truncate max-w-32">
+            {track.title}
+          </span>
+        </nav>
+
+        {/* Quick Actions Bar */}
+        <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center space-x-2">
+            <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500" title="Refresh data">
+              <RotateCcw className="w-4 h-4" />
+            </button>
+            <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500" title="Export report">
+              <Download className="w-4 h-4" />
+            </button>
+            <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500" title="Share track">
+              <Share2 className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Search/Filter Controls */}
+          <div className="flex items-center space-x-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search sections..."
+                className="pl-10 pr-4 py-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 w-48"
+                aria-label="Search track details sections"
+              />
+            </div>
+            <select className="px-3 py-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all duration-200">
+              <option>All Sections</option>
+              <option>Revenue</option>
+              <option>Analytics</option>
+              <option>Geographic</option>
+              <option>Contributors</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      {/* Page header */}
+      {/* Page header with enhanced context */}
       <div className="border-b border-gray-200 dark:border-slate-700 mb-8">
         <div className="px-6 py-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-4 sm:space-y-0">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Track Details</h1>
-              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 font-light leading-relaxed">
-                Detailed view of track performance, metadata, and play history
+              <div className="flex items-center space-x-2 mb-2">
+                <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 text-xs font-medium rounded-full">
+                  {track.genre_name}
+                </span>
+                <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 text-xs font-medium rounded-full">
+                  Active
+                </span>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-300 font-light leading-relaxed">
+                Comprehensive analytics and performance data for <span className="font-medium text-gray-900 dark:text-white">{track.title}</span>
               </p>
+            </div>
+
+            {/* Quick Stats in Header */}
+            <div className="flex items-center space-x-6">
+              <div className="text-center">
+                <div className="text-lg font-bold text-gray-900 dark:text-white">
+                  {track.plays.toLocaleString()}
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Total Plays</div>
+              </div>
+              <div className="text-center">
+                <div className="text-lg font-bold text-green-600 dark:text-green-400">
+                  ₵{track.totalEarnings.toLocaleString()}
+                </div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">Earnings</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="space-y-8">
-        {/* Track Header with Audio Player */}
-        <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-8 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
-          <div className="flex flex-col lg:flex-row lg:items-center gap-8">
-            {/* Track Info */}
-            <div className="flex items-start gap-6 flex-1">
-              <div className="w-32 h-32 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-xl flex items-center justify-center">
-                <Music className="w-16 h-16 text-indigo-600 dark:text-indigo-400" />
+      <div className="space-y-8" role="main">
+        {/* Track Info Card - Enhanced Glassmorphism */}
+        <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl p-8 border border-white/20 dark:border-slate-700/30 shadow-2xl hover:shadow-3xl transition-all duration-300 group" role="region" aria-labelledby="track-info-title">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center space-y-6 lg:space-y-0 lg:space-x-8">
+            {/* Enhanced Album Art with Glow */}
+            <div className="relative flex-shrink-0">
+              <div className="w-48 h-48 lg:w-64 lg:h-64 rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-purple-500/25 transition-all duration-300">
+                <img
+                  src={track.cover_art}
+                  alt={`${track.title} cover art`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>
-              <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              {/* Floating Play Button */}
+              <button
+                className="absolute -bottom-2 -right-2 w-12 h-12 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group-hover:scale-110 focus:outline-none focus:ring-4 focus:ring-purple-500/50"
+                aria-label={`Play ${track.title}`}
+              >
+                <Play className="w-5 h-5 text-white ml-0.5" fill="currentColor" />
+              </button>
+            </div>
+
+            {/* Enhanced Track Info */}
+            <div className="flex-1 space-y-4">
+              <div className="space-y-2">
+                <h1 id="track-info-title" className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                   {track.title}
                 </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-1">
-                  {track.artist_name}
+                <p className="text-xl text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
+                  by {track.artist_name}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                  from album "{track.album}"
-                </p>
-
-                <div className="flex flex-wrap gap-4 text-sm text-gray-600 dark:text-gray-300">
-                  <div className="flex items-center gap-1">
+                <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+                  <span className="flex items-center space-x-1">
+                    <Music className="w-4 h-4" />
+                    <span>{track.genre_name}</span>
+                  </span>
+                  <span className="flex items-center space-x-1">
                     <Clock className="w-4 h-4" />
                     <span>{track.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
+                  </span>
+                  <span className="flex items-center space-x-1">
                     <Calendar className="w-4 h-4" />
                     <span>{new Date(track.release_date).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <BarChart3 className="w-4 h-4" />
-                    <span>{track.plays.toLocaleString()} plays</span>
-                  </div>
-                </div>
-
-                <div className="mt-4">
-                  <span className="inline-flex px-3 py-1 text-sm font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-400">
-                    {track.genre_name}
                   </span>
                 </div>
               </div>
-            </div>
 
-            {/* Audio Player */}
-            <div className="w-full lg:w-80 bg-gradient-to-br from-indigo-50/90 via-purple-50/80 to-pink-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-indigo-200/50 dark:border-slate-600/60 p-6">
-              <audio ref={audioRef} src={track.audio_file_mp3} preload="metadata" />
-
-              {/* Song Title */}
-              <h3 className="text-lg font-semibold text-center text-gray-900 dark:text-white mb-4">
-                Now Playing
-              </h3>
-
-              {/* Play/Pause Button */}
-              <div className="flex justify-center mb-4">
+              {/* Enhanced Action Buttons */}
+              <div className="flex items-center space-x-3">
                 <button
-                  onClick={togglePlay}
-                  className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 shadow-lg flex items-center justify-center text-white text-xl transition-all duration-200 hover:scale-105"
+                  className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl group-hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500/50"
+                  aria-label={`Play ${track.title}`}
                 >
-                  {isPlaying ? (
-                    <Pause className="w-6 h-6" />
-                  ) : (
-                    <Play className="w-6 h-6 ml-1" />
-                  )}
+                  <Play className="w-5 h-5" fill="currentColor" />
+                  <span className="font-medium">Play Track</span>
+                </button>
+                <button
+                  className="flex items-center space-x-2 px-6 py-3 bg-white/20 dark:bg-slate-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-slate-600 hover:bg-white/30 dark:hover:bg-slate-800/70 transition-all duration-200 group-hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500/50 relative"
+                  aria-label="Add to favorites"
+                >
+                  <Heart className="w-5 h-5" />
+                  <span>Add to Favorites</span>
+                  {/* Contextual Help Tooltip */}
+                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    Save for quick access
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
+                  </div>
+                </button>
+                <button
+                  className="flex items-center space-x-2 px-6 py-3 bg-white/20 dark:bg-slate-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300 rounded-full border border-gray-200 dark:border-slate-600 hover:bg-white/30 dark:hover:bg-slate-800/70 transition-all duration-200 group-hover:scale-105 focus:outline-none focus:ring-4 focus:ring-purple-500/50 relative group"
+                  aria-label="Share track"
+                >
+                  <Share2 className="w-5 h-5" />
+                  <span>Share</span>
+                  {/* Contextual Help Tooltip */}
+                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-10">
+                    Share performance data
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-100"></div>
+                  </div>
                 </button>
               </div>
 
-              {/* Time and Slider */}
-              <div className="space-y-3">
-                <input
-                  type="range"
-                  min="0"
-                  max={duration}
-                  value={currentTime}
-                  onChange={handleRangeChange}
-                  className="w-full h-2 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
-                  style={{
-                    background: `linear-gradient(to right, #4f46e5 0%, #4f46e5 ${(currentTime / duration) * 100}%, #e5e7eb ${(currentTime / duration) * 100}%, #e5e7eb 100%)`
-                  }}
-                />
-                <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 font-mono">
-                  <span>{formatTime(currentTime)}</span>
-                  <span>{formatTime(duration)}</span>
-                </div>
+              {/* Keyboard Navigation Instructions */}
+              <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center space-x-2">
+                <span>Press</span>
+                <kbd className="px-2 py-1 bg-gray-100 dark:bg-slate-800 rounded text-xs font-mono">Space</kbd>
+                <span>to play/pause,</span>
+                <kbd className="px-2 py-1 bg-gray-100 dark:bg-slate-800 rounded text-xs font-mono">F</kbd>
+                <span>to favorite</span>
               </div>
+            </div>
 
-              {/* Volume Control */}
-              <div className="flex items-center space-x-3 mt-4">
-                <Volume2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.1"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="flex-1 h-1 bg-gray-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer slider"
-                />
+            {/* Enhanced Stats Card */}
+            <div className="bg-gradient-to-br from-purple-50/80 via-pink-50/60 to-indigo-50/80 dark:from-purple-900/30 dark:via-pink-900/20 dark:to-indigo-900/30 backdrop-blur-sm rounded-xl p-6 border border-purple-200/50 dark:border-purple-800/30 shadow-lg">
+              <div className="text-center space-y-2">
+                <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                  {track.plays.toLocaleString()}
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 uppercase tracking-wide">
+                  Total Plays
+                </div>
+                <div className="w-full bg-purple-200 dark:bg-purple-800 rounded-full h-2">
+                  <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" style={{ width: '75%' }}></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-emerald-50/90 via-green-50/80 to-teal-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-emerald-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Total Plays</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{track.plays.toLocaleString()}</p>
+        {/* Stats Cards - Enhanced Responsive Design */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+          <div className="bg-gradient-to-br from-emerald-50/90 via-green-50/80 to-teal-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-emerald-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+              <div className="flex-1">
+                <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Total Plays</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-200">
+                  {track.plays.toLocaleString()}
+                </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900/60 dark:to-green-900/60 rounded-lg flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-blue-50/90 via-cyan-50/80 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Top Stations</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{track.topStations.length}</p>
-              </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/60 dark:to-cyan-900/60 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-emerald-100 to-green-100 dark:from-emerald-900/60 dark:to-green-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <BarChart3 className="w-4 h-4 lg:w-6 lg:h-6 text-emerald-600 dark:text-emerald-400" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-purple-50/90 via-pink-50/80 to-rose-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Contributors</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{track.contributors.length}</p>
+          <div className="bg-gradient-to-br from-blue-50/90 via-cyan-50/80 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+              <div className="flex-1">
+                <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Top Stations</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                  {track.topStations.length}
+                </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/60 dark:to-pink-900/60 rounded-lg flex items-center justify-center">
-                <Users className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/60 dark:to-cyan-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <MapPin className="w-4 h-4 lg:w-6 lg:h-6 text-blue-600 dark:text-blue-400" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-amber-50/90 via-orange-50/80 to-yellow-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-amber-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Duration</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">{track.duration}</p>
+          <div className="bg-gradient-to-br from-purple-50/90 via-pink-50/80 to-rose-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+              <div className="flex-1">
+                <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Contributors</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                  {track.contributors.length}
+                </p>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/60 dark:to-orange-900/60 rounded-lg flex items-center justify-center">
-                <Clock className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/60 dark:to-pink-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <Users className="w-4 h-4 lg:w-6 lg:h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-amber-50/90 via-orange-50/80 to-yellow-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-amber-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-2 sm:space-y-0">
+              <div className="flex-1">
+                <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Duration</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-200">
+                  {track.duration}
+                </p>
+              </div>
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/60 dark:to-orange-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                <Clock className="w-4 h-4 lg:w-6 lg:h-6 text-amber-600 dark:text-amber-400" />
               </div>
             </div>
           </div>
@@ -386,26 +474,26 @@ const TrackDetails: React.FC = () => {
           {/* Contributors */}
           <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
-                <Users className="w-5 h-5 mr-2 text-purple-600 dark:text-purple-400" />
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center group">
+                <Users className="w-5 h-5 mr-2 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-200" />
                 Contributors
               </h2>
               <div className="flex items-center space-x-4">
                 <div className="text-right">
                   <div className="text-sm text-gray-600 dark:text-gray-400">
-                    Total: <span className="font-semibold text-purple-600 dark:text-purple-400">{currentTotalPercentage}%</span>
+                    Total: <span className="font-semibold text-purple-600 dark:text-purple-400 group-hover:text-purple-700 dark:group-hover:text-purple-300 transition-colors duration-200">{currentTotalPercentage}%</span>
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-500">
-                    Remaining: <span className={`font-medium ${remainingPercentage < 0 ? 'text-red-500' : 'text-green-500'}`}>
+                    Remaining: <span className={`font-medium transition-colors duration-200 ${remainingPercentage < 0 ? 'text-red-500' : 'text-green-500'}`}>
                       {remainingPercentage}%
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center space-x-2 px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+                  className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl group-hover:scale-105"
                 >
-                  <Plus className="w-4 h-4" />
+                  <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
                   <span className="text-sm">Add</span>
                 </button>
               </div>
@@ -413,19 +501,61 @@ const TrackDetails: React.FC = () => {
 
             <div className="space-y-3">
               {track.contributors.map((contributor, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{contributor.name}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{contributor.role}</p>
-                  </div>
-                  <div className="text-right">
-                    <div className="w-8 h-8 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-full flex items-center justify-center mb-1">
-                      <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <div key={index} className="group relative p-4 bg-gray-50/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg hover:bg-gray-100/80 dark:hover:bg-slate-700/80 border border-gray-200/50 dark:border-slate-700/30 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="relative">
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold shadow-lg group-hover:scale-110 transition-all duration-200 ${
+                          index === 0 ? 'bg-gradient-to-br from-green-400 to-green-600' :
+                          index === 1 ? 'bg-gradient-to-br from-blue-400 to-blue-600' :
+                          'bg-gradient-to-br from-purple-400 to-purple-600'
+                        }`}>
+                          {contributor.name.charAt(0).toUpperCase()}
+                        </div>
+                        {/* Role badge */}
+                        <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-white dark:bg-slate-800 rounded-full flex items-center justify-center shadow-md">
+                          <div className={`w-2 h-2 rounded-full ${
+                            index === 0 ? 'bg-green-500' :
+                            index === 1 ? 'bg-blue-500' : 'bg-purple-500'
+                          }`}></div>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">{contributor.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors duration-200">{contributor.role}</p>
+                      </div>
                     </div>
-                    <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">
-                      {contributor.percentage}%
-                    </p>
+                    <div className="text-right">
+                      <div className="relative">
+                        <div className={`w-16 h-8 rounded-full flex items-center justify-center mb-1 shadow-inner ${
+                          index === 0 ? 'bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/30 dark:to-green-800/30' :
+                          index === 1 ? 'bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30' :
+                          'bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/30 dark:to-purple-800/30'
+                        }`}>
+                          <span className={`text-sm font-bold ${
+                            index === 0 ? 'text-green-700 dark:text-green-300' :
+                            index === 1 ? 'text-blue-700 dark:text-blue-300' :
+                            'text-purple-700 dark:text-purple-300'
+                          }`}>
+                            {contributor.percentage}%
+                          </span>
+                        </div>
+                        {/* Animated progress ring */}
+                        <div className={`absolute inset-0 rounded-full border-2 transition-all duration-500 ${
+                          index === 0 ? 'border-green-300 dark:border-green-600' :
+                          index === 1 ? 'border-blue-300 dark:border-blue-600' :
+                          'border-purple-300 dark:border-purple-600'
+                        } opacity-0 group-hover:opacity-100`}></div>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* Hover glow effect */}
+                  <div className={`absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none ${
+                    index === 0 ? 'bg-gradient-to-r from-green-400/5 to-emerald-400/5' :
+                    index === 1 ? 'bg-gradient-to-r from-blue-400/5 to-indigo-400/5' :
+                    'bg-gradient-to-r from-purple-400/5 to-pink-400/5'
+                  }`}></div>
                 </div>
               ))}
             </div>
@@ -536,35 +666,44 @@ const TrackDetails: React.FC = () => {
           </div>
         </div>
 
-        {/* Top Stations */}
+        {/* Top Stations - Mobile Optimized */}
         <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
             <MapPin className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
             Top Stations
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {track.topStations.map((station, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div key={index} className="group relative p-4 bg-gray-50/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg hover:bg-gray-100/80 dark:hover:bg-slate-700/80 border border-gray-200/50 dark:border-slate-700/30 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-95">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200">
+                      <MapPin className="w-4 h-4 lg:w-5 lg:h-5 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                        {station.name}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate">{station.region}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{station.name}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{station.region}</p>
+                  <div className="text-right flex-shrink-0">
+                    <p className="font-semibold text-emerald-600 dark:text-emerald-400 text-lg group-hover:scale-110 transition-transform duration-200">
+                      {station.count}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">plays</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-emerald-600 dark:text-emerald-400">{station.count}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">plays</p>
-                </div>
+
+                {/* Mobile-friendly touch target */}
+                <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-10 bg-blue-500 transition-opacity duration-100"></div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Play Logs */}
+        {/* Play Logs - Mobile Enhanced */}
         <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
             <Clock className="w-5 h-5 mr-2 text-amber-600 dark:text-amber-400" />
@@ -573,22 +712,31 @@ const TrackDetails: React.FC = () => {
 
           <div className="space-y-3">
             {track.playLogs.map((log, index) => (
-              <div key={index} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200">
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg flex items-center justify-center">
-                    <Clock className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <div key={index} className="group relative p-4 bg-gray-50/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-lg hover:bg-gray-100/80 dark:hover:bg-slate-700/80 border border-gray-200/50 dark:border-slate-700/30 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 active:scale-95">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-200">
+                      <Clock className="w-4 h-4 lg:w-5 lg:h-5 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-gray-900 dark:text-white truncate group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-200">
+                        {log.station}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 truncate">{log.region}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{log.station}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{log.region}</p>
+                  <div className="text-left sm:text-right flex-shrink-0">
+                    <p className="font-medium text-gray-900 dark:text-white text-sm sm:text-base">
+                      {new Date(log.time).toLocaleDateString()}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {new Date(log.time).toLocaleTimeString()}
+                    </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-medium text-gray-900 dark:text-white">
-                    {new Date(log.time).toLocaleString()}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Played</p>
-                </div>
+
+                {/* Mobile-friendly touch target */}
+                <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-10 bg-amber-500 transition-opacity duration-100"></div>
               </div>
             ))}
           </div>
@@ -601,40 +749,46 @@ const TrackDetails: React.FC = () => {
             Revenue Dashboard
           </h2>
 
-          {/* Revenue Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <div className="bg-gradient-to-br from-green-50/90 via-emerald-50/80 to-teal-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-green-200/50 dark:border-slate-600/60 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Total Earnings</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">₵{track.totalEarnings.toLocaleString()}</p>
+          {/* Revenue Stats Cards - Mobile Responsive */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6">
+            <div className="bg-gradient-to-br from-green-50/90 via-emerald-50/80 to-teal-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-green-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                <div className="flex-1">
+                  <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Total Earnings</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-200">
+                    ₵{track.totalEarnings.toLocaleString()}
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/60 dark:to-emerald-900/60 rounded-lg flex items-center justify-center">
-                  <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gradient-to-br from-blue-50/90 via-cyan-50/80 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 dark:border-slate-600/60 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-normal text-gray-700 dark:text-slate-300">This Month</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">₵{track.monthlyEarnings[track.monthlyEarnings.length - 1]?.amount.toLocaleString() || '0'}</p>
-                </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/60 dark:to-cyan-900/60 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/60 dark:to-emerald-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                  <DollarSign className="w-4 h-4 lg:w-6 lg:h-6 text-green-600 dark:text-green-400" />
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-50/90 via-pink-50/80 to-rose-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-slate-600/60 p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-normal text-gray-700 dark:text-slate-300">Pending Payout</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-slate-100">₵{track.payoutHistory.find(p => p.status === 'Pending')?.amount.toLocaleString() || '0'}</p>
+            <div className="bg-gradient-to-br from-blue-50/90 via-cyan-50/80 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                <div className="flex-1">
+                  <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">This Month</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
+                    ₵{track.monthlyEarnings[track.monthlyEarnings.length - 1]?.amount.toLocaleString() || '0'}
+                  </p>
                 </div>
-                <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/60 dark:to-pink-900/60 rounded-lg flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/60 dark:to-cyan-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                  <TrendingUp className="w-4 h-4 lg:w-6 lg:h-6 text-blue-600 dark:text-blue-400" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50/90 via-pink-50/80 to-rose-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-slate-600/60 p-4 lg:p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 group cursor-pointer sm:col-span-2 lg:col-span-1">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between space-y-3 sm:space-y-0">
+                <div className="flex-1">
+                  <p className="text-xs lg:text-sm font-normal text-gray-700 dark:text-slate-300">Pending Payout</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-200">
+                    ₵{track.payoutHistory.find(p => p.status === 'Pending')?.amount.toLocaleString() || '0'}
+                  </p>
+                </div>
+                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/60 dark:to-pink-900/60 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                  <Clock className="w-4 h-4 lg:w-6 lg:h-6 text-purple-600 dark:text-purple-400" />
                 </div>
               </div>
             </div>
