@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { ThemeToggle } from '@zamio/ui';
+import Header from './Header';
 import {
   Home,
   Users,
@@ -199,37 +199,13 @@ export default function Layout() {
         {/* Main content */}
         <main className={`flex-1 min-w-0 ${sidebarCollapsed ? 'ml-20' : 'ml-64'} transition-all duration-300 overflow-y-auto`}>
           {/* Top header bar - show for all pages */}
-          <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
-            <div className="px-6 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <button
-                    onClick={toggleSidebar}
-                    className="lg:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-                  >
-                    <Menu className="w-5 h-5" />
-                  </button>
-                  <div>
-                    <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-                      {navigation.find(item => item.current)?.name || 'Zamio Publisher'}
-                    </h1>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {isDashboard
-                        ? 'Manage your music publishing operations and track performance'
-                        : 'Manage your publishing activities and artist relationships'
-                      }
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 relative">
-                    <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                  </button>
-                  <ThemeToggle />
-                </div>
-              </div>
-            </div>
-          </div>
+          <Header
+            onMenuToggle={toggleSidebar}
+            isSidebarOpen={sidebarOpen}
+            isSidebarCollapsed={sidebarCollapsed}
+            onToggleCollapse={toggleSidebarCollapse}
+            activeTab={navigation.find(item => item.current)?.name?.toLowerCase() || 'dashboard'}
+          />
 
           {/* Page content */}
           <div className="p-6">
