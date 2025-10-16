@@ -38,7 +38,8 @@ import {
   Help,
   Schedule,
   Collaborations,
-  AllArtistSongs
+  AllArtistSongs,
+  TrackDetailsPage
 } from '../pages/Pages';
 import Settings from '../pages/Settings';
 
@@ -147,6 +148,10 @@ const router = createBrowserRouter([
       {
         path: 'collaborations',
         element: <Collaborations />
+      },
+      {
+        path: 'track-details',
+        element: <TrackDetailsPage />
       }
     ]
   },

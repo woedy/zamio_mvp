@@ -1,5 +1,7 @@
 import React from 'react';
 import ComingSoonPage from './ComingSoon';
+import UploadManagement from './UploadManagement';
+import TrackDetails from './TrackDetails';
 import { Bell, User, HelpCircle, MessageSquare, Calendar, Users, Upload } from 'lucide-react';
 
 const Notifications: React.FC = () => {
@@ -73,13 +75,11 @@ const Collaborations: React.FC = () => {
 };
 
 const AllArtistSongs: React.FC = () => {
-  return (
-    <ComingSoonPage
-      title="Music Management"
-      description="Upload new tracks, manage your music catalog, and organize your releases across all platforms."
-      icon={<Upload className="w-8 h-8" />}
-    />
-  );
+  return <UploadManagement />;
+};
+
+const TrackDetailsPage: React.FC = () => {
+  return <TrackDetails />;
 };
 
 export {
@@ -90,5 +90,6 @@ export {
   Help,
   Schedule,
   Collaborations,
-  AllArtistSongs
+  AllArtistSongs,
+  TrackDetailsPage
 };
