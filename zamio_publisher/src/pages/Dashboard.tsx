@@ -34,7 +34,9 @@ export default function Dashboard() {
       icon: Radio,
       color: 'text-purple-600',
       bgColor: 'bg-purple-100 dark:bg-purple-900/20',
-      gradient: 'from-purple-50/90 via-violet-50/80 to-indigo-50/90'
+      gradient: 'from-purple-50/90 via-violet-50/80 to-indigo-50/90',
+      target: 15000,
+      targetLabel: 'Monthly Target'
     },
     {
       title: 'Total Earnings',
@@ -43,7 +45,9 @@ export default function Dashboard() {
       icon: DollarSign,
       color: 'text-green-600',
       bgColor: 'bg-green-100 dark:bg-green-900/20',
-      gradient: 'from-emerald-50/90 via-green-50/80 to-teal-50/90'
+      gradient: 'from-emerald-50/90 via-green-50/80 to-teal-50/90',
+      target: 50000,
+      targetLabel: 'Monthly Target'
     },
     {
       title: 'Works in Catalog',
@@ -52,7 +56,11 @@ export default function Dashboard() {
       icon: Music,
       color: 'text-blue-600',
       bgColor: 'bg-blue-100 dark:bg-blue-900/20',
-      gradient: 'from-blue-50/90 via-cyan-50/80 to-indigo-50/90'
+      gradient: 'from-blue-50/90 via-cyan-50/80 to-indigo-50/90',
+      target: 1500,
+      targetLabel: 'Monthly Target',
+      status: 'Excellent',
+      statusColor: 'text-emerald-600 dark:text-emerald-400'
     },
     {
       title: 'Active Stations',
@@ -61,7 +69,9 @@ export default function Dashboard() {
       icon: Headphones,
       color: 'text-orange-600',
       bgColor: 'bg-orange-100 dark:bg-orange-900/20',
-      gradient: 'from-amber-50/90 via-orange-50/80 to-yellow-50/90'
+      gradient: 'from-amber-50/90 via-orange-50/80 to-yellow-50/90',
+      target: 80,
+      targetLabel: 'Monthly Target'
     }
   ];
 
@@ -162,11 +172,35 @@ export default function Dashboard() {
                 <stat.icon className={`w-6 h-6 ${stat.color} dark:${stat.color.replace('600', '400')}`} />
               </div>
             </div>
-            <div className={`mt-4 flex items-center text-sm ${stat.color} dark:${stat.color.replace('600', '400')}`}>
-              <div className="flex items-center mr-2">
-                <TrendingUp className="w-4 h-4" />
-              </div>
+            <div className={`mt-4 flex items-center justify-between text-sm ${stat.color} dark:${stat.color.replace('600', '400')}`}>
               <span>{stat.change}</span>
+              {stat.status && (
+                <div className={`px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 ${stat.statusColor}`}>
+                  {stat.status}
+                </div>
+              )}
+            </div>
+            <div className="mt-3">
+              <div className="flex items-center justify-between text-xs mb-1">
+                <span className="text-gray-500 dark:text-gray-400">{stat.targetLabel}</span>
+                <span className="text-gray-600 dark:text-gray-300 font-medium">
+                  {typeof stat.value === 'string' && stat.value.includes('₵')
+                    ? stat.value.replace('₵', '').replace(',', '') + ' / ' + stat.target.toLocaleString()
+                    : stat.value.replace(',', '') + ' / ' + stat.target.toLocaleString()
+                  }
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                <div
+                  className={`h-2 rounded-full transition-all duration-500 ${
+                    index === 0 ? 'bg-purple-500 dark:bg-purple-400' :
+                    index === 1 ? 'bg-green-500 dark:bg-green-400' :
+                    index === 2 ? 'bg-blue-500 dark:bg-blue-400' :
+                    'bg-orange-500 dark:bg-orange-400'
+                  }`}
+                  style={{ width: `${Math.min((parseInt(stat.value.replace(/[^0-9]/g, '')) / stat.target) * 100, 100)}%` }}
+                />
+              </div>
             </div>
           </div>
         ))}
@@ -445,6 +479,53 @@ export default function Dashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Performance Score - Match zamio_frontend */}
+          <div className="bg-gradient-to-br from-violet-50/90 via-purple-50/80 to-indigo-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-violet-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.01] transition-all duration-300">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-slate-100 flex items-center">
+                <Award className="w-5 h-5 mr-2 text-violet-500 dark:text-violet-400" />
+                Performance Score
+              </h2>
+            </div>
+            <div className="text-center mb-6">
+              <div className="text-3xl sm:text-4xl font-bold mb-2 text-emerald-600 dark:text-emerald-400">
+                8.7
+              </div>
+              <div className="px-3 py-1 rounded-full text-sm font-medium mx-auto w-fit bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300">
+                Excellent Performance
+              </div>
+            </div>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Publishing Growth</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">9.2</span>
+                  <div className="w-8 h-1 bg-gray-200 dark:bg-slate-600 rounded-full">
+                    <div className="w-full h-full bg-emerald-400 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Revenue Growth</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">8.5</span>
+                  <div className="w-8 h-1 bg-gray-200 dark:bg-slate-600 rounded-full">
+                    <div className="w-5/6 h-full bg-blue-400 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Catalog Quality</span>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-semibold text-purple-600 dark:text-purple-400">8.8</span>
+                  <div className="w-8 h-1 bg-gray-200 dark:bg-slate-600 rounded-full">
+                    <div className="w-11/12 h-full bg-purple-400 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

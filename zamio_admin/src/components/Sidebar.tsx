@@ -1,0 +1,181 @@
+import React from 'react';
+import {
+  Home,
+  Users,
+  Radio,
+  Building,
+  FileText,
+  Target,
+  BarChart3,
+  Settings,
+  Shield,
+  ChevronLeft,
+  ChevronRight,
+  LogOut,
+} from 'lucide-react';
+
+interface SidebarProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+  isCollapsed?: boolean;
+  onToggleCollapse?: () => void;
+  activeTab?: string;
+  onTabChange?: (tab: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  isOpen = true,
+  onClose,
+  isCollapsed = false,
+  onToggleCollapse,
+  activeTab = 'overview',
+  onTabChange
+}) => {
+  const navigationItems = [
+    {
+      name: 'Overview',
+      id: 'overview',
+      icon: Home,
+      current: activeTab === 'overview',
+      description: 'Platform overview and metrics'
+    },
+    {
+      name: 'Users',
+      id: 'users',
+      icon: Users,
+      current: activeTab === 'users',
+      description: 'User management and profiles'
+    },
+    {
+      name: 'Stations',
+      id: 'stations',
+      icon: Radio,
+      current: activeTab === 'stations',
+      description: 'Station management and monitoring'
+    },
+    {
+      name: 'Partners',
+      id: 'partners',
+      icon: Building,
+      current: activeTab === 'partners',
+      description: 'Partner agreements and management'
+    },
+    {
+      name: 'Disputes',
+      id: 'disputes',
+      icon: FileText,
+      current: activeTab === 'disputes',
+      description: 'Dispute resolution and tracking'
+    },
+    {
+      name: 'Attribution QA',
+      id: 'qa',
+      icon: Target,
+      current: activeTab === 'qa',
+      description: 'Quality assurance and attribution'
+    },
+    {
+      name: 'Analytics',
+      id: 'analytics',
+      icon: BarChart3,
+      current: activeTab === 'analytics',
+      description: 'Platform analytics and insights'
+    },
+    {
+      name: 'System',
+      id: 'system',
+      icon: Settings,
+      current: activeTab === 'system',
+      description: 'System settings and configuration'
+    },
+  ];
+
+  return (
+    <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-700 h-full flex flex-col`}>
+      {/* Sidebar header */}
+      <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+        <div className="flex items-center space-x-3">
+          <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-600 p-2.5 rounded-xl shadow-lg">
+            <Shield className="w-6 h-6 text-white" />
+          </div>
+          {!isCollapsed && (
+            <div>
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white tracking-tight">ZamIO Admin</h2>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Platform Console</p>
+            </div>
+          )}
+        </div>
+
+        {/* Collapse button */}
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={onToggleCollapse}
+            className="p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-800 transition-colors duration-200"
+          >
+            {isCollapsed ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <ChevronLeft className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto scrollbar-hide">
+        <div className="space-y-1">
+          <div className={`px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${isCollapsed ? 'text-center' : ''}`}>
+            {isCollapsed ? 'MENU' : 'ADMIN PANEL'}
+          </div>
+          {navigationItems.map((item) => (
+            <button
+              key={item.id}
+              onClick={() => onTabChange?.(item.id)}
+              className={`${
+                item.current
+                  ? 'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/50 dark:to-purple-900/50 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 shadow-sm'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white border-transparent'
+              } group flex items-center px-3 py-3 text-sm font-medium rounded-xl border transition-all duration-200 w-full ${isCollapsed ? 'justify-center' : ''}`}
+              title={isCollapsed ? item.name : undefined}
+            >
+              <item.icon className={`${
+                item.current
+                  ? 'text-indigo-600 dark:text-indigo-400'
+                  : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
+              } w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
+              {!isCollapsed && (
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium">{item.name}</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {item.description}
+                  </div>
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {/* Sidebar footer */}
+      <div className="p-4 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+        <div className={`flex items-center space-x-3 ${isCollapsed ? 'justify-center' : ''}`}>
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+            <span className="text-white text-sm font-semibold">AD</span>
+          </div>
+          {!isCollapsed && (
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                Admin User
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                Super Admin
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </aside>
+  );
+};
+
+export default Sidebar;

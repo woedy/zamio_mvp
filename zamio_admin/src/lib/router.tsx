@@ -3,8 +3,9 @@ import { ReactNode } from 'react';
 
 // Placeholder for auth check (to be implemented in later tasks)
 const isAuthenticated = () => {
-  // For now, always return false; integrate with auth context later
-  return false;
+  // For development, always return true to allow dashboard access
+  // TODO: Integrate with proper authentication context
+  return true;
 };
 
 // Private Route Component
