@@ -30,13 +30,19 @@ import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 import Layout from '../components/Layout';
 
-// Placeholder components for station features
-const PlaceholderPage = ({ title }: { title: string }) => (
-  <div className="p-8">
-    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">{title}</h1>
-    <p className="text-gray-600 dark:text-gray-300">This page is under development and will be implemented in future phases.</p>
-  </div>
-);
+// Import new station pages
+import {
+  MatchLogs,
+  MatchDisputes,
+  Profile,
+  StaffManagement,
+  Compliance,
+  PlaylogManagement,
+  Notifications,
+  Help,
+  RadioStream,
+  AudioStream
+} from '../pages/StationPages';
 
 const Router = () => {
   return (
@@ -73,77 +79,19 @@ const Router = () => {
           <PrivateRoute>
             <Layout />
           </PrivateRoute>
-        } />
-        <Route path="/match-logs" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Match Logs" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/match-disputes" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Match Disputes" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/profile" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Station Profile" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/staff-management" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Staff Management" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/compliance" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Compliance Management" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/playlog-management" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Playlog Management" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/notifications" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Notifications" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/help" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Help & Support" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/radio-stream" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Radio Stream Monitor" />
-            </Layout>
-          </PrivateRoute>
-        } />
-        <Route path="/audio-stream" element={
-          <PrivateRoute>
-            <Layout>
-              <PlaceholderPage title="Audio Stream Matcher" />
-            </Layout>
-          </PrivateRoute>
-        } />
+        }>
+          <Route index element={<Dashboard />} />
+          <Route path="match-logs" element={<MatchLogs />} />
+          <Route path="match-disputes" element={<MatchDisputes />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="staff-management" element={<StaffManagement />} />
+          <Route path="compliance" element={<Compliance />} />
+          <Route path="playlog-management" element={<PlaylogManagement />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="help" element={<Help />} />
+          <Route path="radio-stream" element={<RadioStream />} />
+          <Route path="audio-stream" element={<AudioStream />} />
+        </Route>
 
         <Route path="*" element={<NotFound />} />
       </Routes>

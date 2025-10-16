@@ -26,6 +26,22 @@ import EmailVerification from '../pages/EmailVerification';
 import Dashboard from '../pages/Dashboard';
 import NotFound from '../pages/NotFound';
 
+// Import new pages
+import MatchLogs from '../pages/MatchLogs';
+import Analytics from '../pages/Analytics';
+import RoyaltyPayments from '../pages/RoyaltyPayments';
+import {
+  Notifications,
+  Profile,
+  Legal,
+  Feedback,
+  Help,
+  Schedule,
+  Collaborations,
+  AllArtistSongs
+} from '../pages/Pages';
+import Settings from '../pages/Settings';
+
 // Import layout and onboarding components
 import Layout from '../components/Layout';
 import OnboardingWizard from '../components/onboarding/OnboardingWizard';
@@ -83,6 +99,54 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard />
+      },
+      {
+        path: 'match-logs',
+        element: <MatchLogs />
+      },
+      {
+        path: 'all-artist-songs',
+        element: <AllArtistSongs />
+      },
+      {
+        path: 'analytics',
+        element: <Analytics />
+      },
+      {
+        path: 'royalty-payments',
+        element: <RoyaltyPayments />
+      },
+      {
+        path: 'notifications',
+        element: <Notifications />
+      },
+      {
+        path: 'profile',
+        element: <Profile />
+      },
+      {
+        path: 'settings',
+        element: <Settings />
+      },
+      {
+        path: 'legal',
+        element: <Legal />
+      },
+      {
+        path: 'feedback',
+        element: <Feedback />
+      },
+      {
+        path: 'help',
+        element: <Help />
+      },
+      {
+        path: 'schedule',
+        element: <Schedule />
+      },
+      {
+        path: 'collaborations',
+        element: <Collaborations />
       }
     ]
   },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import { ThemeToggle } from '@zamio/ui';
 import {
   Home,
@@ -42,72 +42,72 @@ export default function Layout() {
     },
     {
       name: 'Match Logs',
-      href: '/match-logs',
+      href: '/dashboard/match-logs',
       icon: Search,
-      current: location.pathname === '/match-logs',
+      current: location.pathname === '/dashboard/match-logs',
       description: 'View play history and logs'
     },
     {
       name: 'Disputes',
-      href: '/match-disputes',
+      href: '/dashboard/match-disputes',
       icon: AlertTriangle,
-      current: location.pathname === '/match-disputes',
+      current: location.pathname === '/dashboard/match-disputes',
       description: 'Match dispute management'
     },
     {
       name: 'Profile',
-      href: '/profile',
+      href: '/dashboard/profile',
       icon: User,
-      current: location.pathname === '/profile',
+      current: location.pathname === '/dashboard/profile',
       description: 'Manage station profile'
     },
     {
       name: 'Staff',
-      href: '/staff-management',
+      href: '/dashboard/staff-management',
       icon: Users,
-      current: location.pathname === '/staff-management',
+      current: location.pathname === '/dashboard/staff-management',
       description: 'Staff management and permissions'
     },
     {
       name: 'Compliance',
-      href: '/compliance',
+      href: '/dashboard/compliance',
       icon: Shield,
-      current: location.pathname === '/compliance',
+      current: location.pathname === '/dashboard/compliance',
       description: 'License and regulatory compliance'
     },
     {
       name: 'Playlogs',
-      href: '/playlog-management',
+      href: '/dashboard/playlog-management',
       icon: FileSearch,
-      current: location.pathname === '/playlog-management',
+      current: location.pathname === '/dashboard/playlog-management',
       description: 'Playlog management and reporting'
     },
     {
       name: 'Notifications',
-      href: '/notifications',
+      href: '/dashboard/notifications',
       icon: Bell,
-      current: location.pathname === '/notifications',
+      current: location.pathname === '/dashboard/notifications',
       description: 'View notifications and alerts'
     },
     {
       name: 'Help & Support',
-      href: '/help',
+      href: '/dashboard/help',
       icon: HelpCircle,
-      current: location.pathname === '/help',
+      current: location.pathname === '/dashboard/help',
       description: 'Get help and support'
     },
     {
       name: 'Radio Stream',
-      href: '/radio-stream',
+      href: '/dashboard/radio-stream',
       icon: RadioIcon,
-      current: location.pathname === '/radio-stream',
+      current: location.pathname === '/dashboard/radio-stream',
       description: 'Radio stream monitoring tools'
     },
     {
       name: 'Audio Stream',
-      href: '/audio-stream',
+      href: '/dashboard/audio-stream',
       icon: Headphones,
-      current: location.pathname === '/audio-stream',
+      current: location.pathname === '/dashboard/audio-stream',
       description: 'Audio file matching system'
     },
   ];
@@ -253,7 +253,7 @@ export default function Layout() {
 
           {/* Page content */}
           <div className="p-6">
-            {isDashboard ? <Dashboard /> : <div>Content for other pages</div>}
+            {isDashboard ? <Dashboard /> : <Outlet />}
           </div>
         </main>
       </div>

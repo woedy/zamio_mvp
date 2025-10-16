@@ -47,72 +47,72 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       name: 'Play Logs',
-      href: '/match-logs',
+      href: '/dashboard/match-logs',
       icon: Clock,
-      current: location.pathname.startsWith('/match-logs'),
+      current: location.pathname.startsWith('/dashboard/match-logs'),
       description: 'View play history and logs'
     },
     {
       name: 'Upload/Management',
-      href: '/all-artist-songs',
+      href: '/dashboard/all-artist-songs',
       icon: Upload,
-      current: location.pathname.startsWith('/all-artist-songs'),
+      current: location.pathname.startsWith('/dashboard/all-artist-songs'),
       description: 'Manage your music catalog'
     },
     {
       name: 'Analytics',
-      href: '/analytics',
+      href: '/dashboard/analytics',
       icon: BarChart3,
-      current: location.pathname.startsWith('/analytics'),
+      current: location.pathname.startsWith('/dashboard/analytics'),
       description: 'Detailed performance metrics'
     },
     {
       name: 'Payments',
-      href: '/royalty-payments',
+      href: '/dashboard/royalty-payments',
       icon: DollarSign,
-      current: location.pathname.startsWith('/royalty-payments'),
+      current: location.pathname.startsWith('/dashboard/royalty-payments'),
       description: 'Royalty and earnings data'
     },
     {
       name: 'Notifications',
-      href: '/notifications',
+      href: '/dashboard/notifications',
       icon: Bell,
-      current: location.pathname.startsWith('/notifications'),
+      current: location.pathname.startsWith('/dashboard/notifications'),
       description: 'View notifications and alerts'
     },
     {
       name: 'Profile',
-      href: '/profile',
+      href: '/dashboard/profile',
       icon: User,
-      current: location.pathname.startsWith('/profile'),
+      current: location.pathname.startsWith('/dashboard/profile'),
       description: 'Manage your profile'
     },
     {
       name: 'Settings',
-      href: '/settings',
+      href: '/dashboard/settings',
       icon: Settings,
-      current: location.pathname.startsWith('/settings'),
+      current: location.pathname.startsWith('/dashboard/settings'),
       description: 'Account and preferences'
     },
     {
       name: 'Legal',
-      href: '/legal',
+      href: '/dashboard/legal',
       icon: HelpCircle,
-      current: location.pathname.startsWith('/legal'),
+      current: location.pathname.startsWith('/dashboard/legal'),
       description: 'Legal information and terms'
     },
     {
       name: 'Feedback/Reviews',
-      href: '/feedback',
+      href: '/dashboard/feedback',
       icon: MessageSquare,
-      current: location.pathname.startsWith('/feedback'),
+      current: location.pathname.startsWith('/dashboard/feedback'),
       description: 'Provide feedback and reviews'
     },
     {
       name: 'Help and Support',
-      href: '/help',
+      href: '/dashboard/help',
       icon: HelpCircle,
-      current: location.pathname.startsWith('/help'),
+      current: location.pathname.startsWith('/dashboard/help'),
       description: 'Get help and support'
     }
   ];
@@ -120,16 +120,16 @@ const Sidebar: React.FC<SidebarProps> = ({
   const bottomItems = [
     {
       name: 'Schedule',
-      href: '/schedule',
+      href: '/dashboard/schedule',
       icon: Calendar,
-      current: location.pathname.startsWith('/schedule'),
+      current: location.pathname.startsWith('/dashboard/schedule'),
       description: 'Manage your schedule'
     },
     {
       name: 'Collaborations',
-      href: '/collaborations',
+      href: '/dashboard/collaborations',
       icon: User,
-      current: location.pathname.startsWith('/collaborations'),
+      current: location.pathname.startsWith('/dashboard/collaborations'),
       description: 'Artist partnerships'
     }
   ];
@@ -137,23 +137,23 @@ const Sidebar: React.FC<SidebarProps> = ({
   const settingsItems = [
     {
       name: 'Legal',
-      href: '/legal',
+      href: '/dashboard/legal',
       icon: HelpCircle,
-      current: location.pathname.startsWith('/legal'),
+      current: location.pathname.startsWith('/dashboard/legal'),
       description: 'Legal information and terms'
     },
     {
       name: 'Feedback/Reviews',
-      href: '/feedback',
+      href: '/dashboard/feedback',
       icon: MessageSquare,
-      current: location.pathname.startsWith('/feedback'),
+      current: location.pathname.startsWith('/dashboard/feedback'),
       description: 'Provide feedback and reviews'
     },
     {
       name: 'Help and Support',
-      href: '/help',
+      href: '/dashboard/help',
       icon: HelpCircle,
-      current: location.pathname.startsWith('/help'),
+      current: location.pathname.startsWith('/dashboard/help'),
       description: 'Get help and support'
     }
   ];
