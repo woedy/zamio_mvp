@@ -797,10 +797,23 @@ const TrackDetails: React.FC = () => {
           {/* Monthly Earnings Chart - Enhanced */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
-              <h3 className="text-md font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <TrendingUp className="w-4 h-4 mr-2 text-green-600 dark:text-green-400" />
-                Monthly Earnings Trend
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-md font-semibold text-gray-900 dark:text-white flex items-center">
+                  <TrendingUp className="w-4 h-4 mr-2 text-green-600 dark:text-green-400" />
+                  Monthly Earnings Trend
+                </h3>
+
+                {/* Interactive Legend */}
+                <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-1">
+                    <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full"></div>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">Earnings</span>
+                  </div>
+                  <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200" title="Filter by earnings">
+                    <Filter className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
 
               {/* Enhanced Chart with Better Visualization */}
               <div className="space-y-4">
@@ -811,13 +824,13 @@ const TrackDetails: React.FC = () => {
                   const growth = index > 0 ? ((earning.amount - prevAmount) / prevAmount) * 100 : 0;
 
                   return (
-                    <div key={index} className="group">
+                    <div key={index} className="group relative">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-3">
                           <div className="w-16 text-sm text-gray-600 dark:text-gray-400 font-medium">
                             {earning.month}
                           </div>
-                          <div className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          <div className={`px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
                             growth > 0
                               ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                               : growth < 0
@@ -850,7 +863,7 @@ const TrackDetails: React.FC = () => {
                               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
                             </div>
                           </div>
-                          <div className="w-12 text-xs text-gray-500 dark:text-gray-400 text-right">
+                          <div className="w-12 text-xs text-gray-500 dark:text-gray-400 text-right font-mono">
                             {percentage.toFixed(0)}%
                           </div>
                         </div>
@@ -858,6 +871,11 @@ const TrackDetails: React.FC = () => {
                         {/* Animated glow effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-emerald-400/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                       </div>
+
+                      {/* Drill-down indicator */}
+                      <button className="absolute right-0 top-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <ChevronRight className="w-3 h-3" />
+                      </button>
                     </div>
                   );
                 })}
@@ -890,10 +908,24 @@ const TrackDetails: React.FC = () => {
 
             {/* Territory Earnings - Enhanced */}
             <div className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl p-6 border border-gray-200/50 dark:border-slate-700/30 shadow-2xl">
-              <h3 className="text-md font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Globe className="w-4 h-4 mr-2 text-blue-600 dark:text-blue-400" />
-                Earnings by Territory
-              </h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-md font-semibold text-gray-900 dark:text-white flex items-center">
+                  <Globe className="w-4 h-4 mr-2 text-blue-600 dark:text-blue-400" />
+                  Earnings by Territory
+                </h3>
+
+                {/* Interactive Controls */}
+                <div className="flex items-center space-x-2">
+                  <select className="text-xs px-2 py-1 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-slate-600 rounded text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option>All Territories</option>
+                    <option>Top 5</option>
+                    <option>Growth Markets</option>
+                  </select>
+                  <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200" title="Export territory data">
+                    <Download className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
 
               <div className="space-y-4">
                 {track.territoryEarnings.map((territory, index) => {
@@ -968,12 +1000,27 @@ const TrackDetails: React.FC = () => {
             </div>
           </div>
 
-          {/* Payout History */}
+          {/* Payout History - Enhanced with Filters */}
           <div className="mt-6">
-            <h3 className="text-md font-semibold text-gray-900 dark:text-white mb-4">Payout History</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-md font-semibold text-gray-900 dark:text-white">Payout History</h3>
+
+              {/* Filter Controls */}
+              <div className="flex items-center space-x-2">
+                <select className="text-xs px-2 py-1 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-gray-200 dark:border-slate-600 rounded text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                  <option>All Status</option>
+                  <option>Paid</option>
+                  <option>Pending</option>
+                </select>
+                <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200" title="Export payout data">
+                  <Download className="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+
             <div className="space-y-2">
               {track.payoutHistory.map((payout, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                <div key={index} className="group relative flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors duration-200">
                   <div className="flex items-center space-x-3">
                     <div className={`w-3 h-3 rounded-full ${payout.status === 'Paid' ? 'bg-green-500' : 'bg-amber-500'}`} />
                     <div>
@@ -987,6 +1034,11 @@ const TrackDetails: React.FC = () => {
                       {payout.status}
                     </p>
                   </div>
+
+                  {/* Drill-down indicator */}
+                  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <ChevronRight className="w-3 h-3" />
+                  </button>
                 </div>
               ))}
             </div>
