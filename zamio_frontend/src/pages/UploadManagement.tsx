@@ -328,7 +328,10 @@ const UploadManagement: React.FC = () => {
               </p>
             </div>
             <div className="flex items-center space-x-3">
-              <button className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+              <button
+                onClick={() => navigate('/dashboard/add-track')}
+                className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
                 <Upload className="w-4 h-4" />
                 <span>Upload Files</span>
               </button>

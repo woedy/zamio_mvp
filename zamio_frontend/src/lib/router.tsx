@@ -42,6 +42,8 @@ import {
   TrackDetailsPage
 } from '../pages/Pages';
 import Settings from '../pages/Settings';
+import AddTrack from '../pages/AddTrack';
+import UploadManagement from '../pages/UploadManagement';
 
 // Import layout and onboarding components
 import Layout from '../components/Layout';
@@ -152,6 +154,14 @@ const router = createBrowserRouter([
       {
         path: 'track-details',
         element: <TrackDetailsPage />
+      },
+      {
+        path: 'add-track',
+        element: <AddTrack />
+      },
+      {
+        path: 'upload-management',
+        element: <UploadManagement />
       }
     ]
   },
