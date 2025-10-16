@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, Bell, Settings, User, LogOut, Menu, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Bell, Settings, User, LogOut, Menu, ChevronLeft, ChevronRight, Sun, Moon } from 'lucide-react';
+import { useTheme } from '@zamio/ui';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -19,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const { theme, toggle } = useTheme();
 
   const notificationRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -223,6 +225,19 @@ const Header: React.FC<HeaderProps> = ({
             {/* Settings */}
             <button className="p-2.5 rounded-xl text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-800 transition-all duration-200">
               <Settings className="w-5 h-5" />
+            </button>
+
+            {/* Dark mode toggle */}
+            <button
+              onClick={toggle}
+              className="p-2.5 rounded-xl text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-800 transition-all duration-200"
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
 
             {/* User menu */}

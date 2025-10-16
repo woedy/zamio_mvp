@@ -144,7 +144,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
               } w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
               {!isCollapsed && (
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 text-left">
                   <div className="font-medium">{item.name}</div>
                   <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                     {item.description}
@@ -158,12 +158,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Sidebar footer */}
       <div className="p-4 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
-        <div className={`flex items-center space-x-3 ${isCollapsed ? 'justify-center' : ''}`}>
+        <div className={`flex items-center space-x-3 ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
           <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
             <span className="text-white text-sm font-semibold">AD</span>
           </div>
           {!isCollapsed && (
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 text-left">
               <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                 Admin User
               </p>

@@ -40,7 +40,7 @@ export default function Layout({ children }: LayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Desktop Layout - fixed sidebar, scrollable content */}
       <div className="hidden lg:block">
         {/* Desktop Sidebar - fixed position, doesn't scroll */}
@@ -58,7 +58,7 @@ export default function Layout({ children }: LayoutProps) {
         {/* Desktop Main Content - scrollable, accounts for sidebar width */}
         <div className={`flex flex-col min-h-screen transition-all duration-300 ${sidebarCollapsed ? 'ml-20' : 'ml-64'}`}>
           {/* Desktop Header - fixed at top */}
-          <header className="bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/60 sticky top-0 z-30">
+          <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-slate-700/60 sticky top-0 z-30">
             <Header
               onMenuToggle={handleToggleSidebar}
               isSidebarOpen={sidebarOpen}
@@ -82,7 +82,7 @@ export default function Layout({ children }: LayoutProps) {
         {/* Mobile Main Content (includes header) */}
         <div className="flex flex-col min-h-screen">
           {/* Mobile Header */}
-          <header className="bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/60">
+          <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-gray-200/60 dark:border-slate-700/60">
             <Header
               onMenuToggle={handleToggleSidebar}
               isSidebarOpen={sidebarOpen}
