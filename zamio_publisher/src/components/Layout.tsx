@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
+import Dashboard from '../pages/Dashboard';
 
 export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -224,7 +225,7 @@ export default function Layout() {
 
           {/* Page content */}
           <div className="p-6">
-            {isDashboard ? <div>Publisher Dashboard Component</div> : <Outlet />}
+            {isDashboard ? <Dashboard /> : <Outlet />}
           </div>
         </main>
       </div>
