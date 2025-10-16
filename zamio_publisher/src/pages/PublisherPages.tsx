@@ -1,5 +1,6 @@
 import React from 'react';
 import ComingSoonPage from './ComingSoon';
+import PlayLogs from './PlayLogs';
 import {
   Users,
   Music,
@@ -95,5 +96,6 @@ export {
   ReportsAnalytics,
   ContractsLegal,
   ProfileSettings,
-  Support
+  Support,
+  PlayLogs
 };

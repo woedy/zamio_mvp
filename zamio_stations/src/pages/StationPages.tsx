@@ -1,5 +1,6 @@
 import React from 'react';
 import ComingSoonPage from './ComingSoon';
+import PlayLogs from './PlayLogs';
 import {
   Search,
   AlertTriangle,
@@ -10,18 +11,12 @@ import {
   Bell,
   HelpCircle,
   Radio as RadioIcon,
-  Headphones
+  Headphones,
 } from 'lucide-react';
 
 // MatchLogs Page
 const MatchLogs: React.FC = () => {
-  return (
-    <ComingSoonPage
-      title="Match Logs"
-      description="View detailed play history, track performance, and analyze your station's music detection across all monitored streams."
-      icon={<Search className="w-8 h-8" />}
-    />
-  );
+  return <PlayLogs />;
 };
 
 // MatchDisputes Page
@@ -70,13 +65,7 @@ const Compliance: React.FC = () => {
 
 // PlaylogManagement Page
 const PlaylogManagement: React.FC = () => {
-  return (
-    <ComingSoonPage
-      title="Playlog Management"
-      description="Review and manage playlogs, generate reports, and ensure accurate music usage tracking for royalty calculations."
-      icon={<FileSearch className="w-8 h-8" />}
-    />
-  );
+  return <PlayLogs />;
 };
 
 // Notifications Page

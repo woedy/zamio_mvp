@@ -11,6 +11,7 @@ import {
   User,
   HelpCircle,
   Settings,
+  Activity,
   Menu,
   X,
   ChevronLeft,
@@ -33,6 +34,13 @@ export default function Layout() {
       icon: Home,
       current: location.pathname === '/dashboard',
       description: 'Overview and analytics'
+    },
+    {
+      name: 'Play Logs',
+      href: '/dashboard/playlogs',
+      icon: Activity,
+      current: location.pathname.startsWith('/dashboard/playlogs'),
+      description: 'Catalog performance tracking'
     },
     {
       name: 'Artists',

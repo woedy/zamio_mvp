@@ -36,7 +36,8 @@ import {
   ReportsAnalytics,
   ContractsLegal,
   ProfileSettings,
-  Support
+  Support,
+  PlayLogs
 } from '../pages/PublisherPages';
 
 const router = createBrowserRouter([
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: 'reports',
         element: <ReportsAnalytics />
+      },
+      {
+        path: 'playlogs',
+        element: <PlayLogs />
       },
       {
         path: 'contracts',
