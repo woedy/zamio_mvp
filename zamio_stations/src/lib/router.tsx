@@ -44,6 +44,9 @@ import {
   AudioStream
 } from '../pages/StationPages';
 
+// Import dispute management pages
+import DisputeDetails from '../pages/MatchDisputeManagement/DisputeDetails';
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -83,6 +86,7 @@ const Router = () => {
           <Route index element={<Dashboard />} />
           <Route path="match-logs" element={<MatchLogs />} />
           <Route path="match-disputes" element={<MatchDisputes />} />
+          <Route path="match-dispute-details" element={<DisputeDetails />} />
           <Route path="profile" element={<Profile />} />
           <Route path="staff-management" element={<StaffManagement />} />
           <Route path="compliance" element={<Compliance />} />

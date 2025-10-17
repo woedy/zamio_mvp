@@ -1,6 +1,7 @@
 import React from 'react';
 import ComingSoonPage from './ComingSoon';
 import PlayLogs from './PlayLogs';
+import AllDisputeMatches from './MatchDisputeManagement/AllDisputeMatches';
 import {
   Search,
   AlertTriangle,
@@ -21,13 +22,7 @@ const MatchLogs: React.FC = () => {
 
 // MatchDisputes Page
 const MatchDisputes: React.FC = () => {
-  return (
-    <ComingSoonPage
-      title="Match Disputes"
-      description="Manage and resolve music identification disputes, review contested matches, and maintain accurate reporting."
-      icon={<AlertTriangle className="w-8 h-8" />}
-    />
-  );
+  return <AllDisputeMatches />;
 };
 
 // Profile Page
