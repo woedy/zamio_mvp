@@ -30,8 +30,14 @@ import NotFound from '../pages/NotFound';
 import MatchLogs from '../pages/MatchLogs';
 import Analytics from '../pages/Analytics';
 import RoyaltyPayments from '../pages/RoyaltyPayments';
+import Notifications from '../pages/Notifications';
+import Settings from '../pages/Settings';
+import AddTrack from '../pages/AddTrack';
+import UploadManagement from '../pages/UploadManagement';
+import AlbumList from '../pages/AlbumList';
+import AlbumDetails from '../pages/AlbumDetails';
+
 import {
-  Notifications,
   Profile,
   Legal,
   Feedback,
@@ -41,11 +47,6 @@ import {
   AllArtistSongs,
   TrackDetailsPage
 } from '../pages/Pages';
-import Settings from '../pages/Settings';
-import AddTrack from '../pages/AddTrack';
-import UploadManagement from '../pages/UploadManagement';
-import AlbumList from '../pages/AlbumList';
-import AlbumDetails from '../pages/AlbumDetails';
 
 // Import layout and onboarding components
 import Layout from '../components/Layout';
