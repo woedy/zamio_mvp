@@ -1,6 +1,7 @@
 import React from 'react';
 import ComingSoonPage from './ComingSoon';
 import PlayLogs from './PlayLogs';
+import ArtistsManagement from './ArtistsManagement';
 import {
   Users,
   Music,
@@ -12,16 +13,7 @@ import {
   Settings
 } from 'lucide-react';
 
-// ArtistsManagement Page
-const ArtistsManagement: React.FC = () => {
-  return (
-    <ComingSoonPage
-      title="Artists Management"
-      description="Manage your roster of artists, track their performance, and oversee their music releases and royalty distributions."
-      icon={<Users className="w-8 h-8" />}
-    />
-  );
-};
+// ArtistsManagement Page - Now imported from dedicated file
 
 // CatalogManagement Page
 const CatalogManagement: React.FC = () => {
