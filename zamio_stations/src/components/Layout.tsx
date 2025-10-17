@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Header from './Header';
 import {
   Home,
@@ -37,77 +37,66 @@ export default function Layout() {
       name: 'Overview',
       href: '/dashboard',
       icon: Home,
-      current: location.pathname === '/dashboard',
       description: 'Station dashboard and overview'
     },
     {
       name: 'Match Logs',
       href: '/dashboard/match-logs',
       icon: Search,
-      current: location.pathname === '/dashboard/match-logs',
       description: 'View play history and logs'
     },
     {
       name: 'Disputes',
       href: '/dashboard/match-disputes',
       icon: AlertTriangle,
-      current: location.pathname === '/dashboard/match-disputes',
       description: 'Match dispute management'
     },
     {
       name: 'Profile',
       href: '/dashboard/profile',
       icon: User,
-      current: location.pathname === '/dashboard/profile',
       description: 'Manage station profile'
     },
     {
       name: 'Staff',
       href: '/dashboard/staff-management',
       icon: Users,
-      current: location.pathname === '/dashboard/staff-management',
       description: 'Staff management and permissions'
     },
     {
       name: 'Compliance',
       href: '/dashboard/compliance',
       icon: Shield,
-      current: location.pathname === '/dashboard/compliance',
       description: 'License and regulatory compliance'
     },
     {
       name: 'Playlogs',
       href: '/dashboard/playlog-management',
       icon: FileSearch,
-      current: location.pathname === '/dashboard/playlog-management',
       description: 'Playlog management and reporting'
     },
     {
       name: 'Notifications',
       href: '/dashboard/notifications',
       icon: Bell,
-      current: location.pathname === '/dashboard/notifications',
       description: 'View notifications and alerts'
     },
     {
       name: 'Help & Support',
       href: '/dashboard/help',
       icon: HelpCircle,
-      current: location.pathname === '/dashboard/help',
       description: 'Get help and support'
     },
     {
       name: 'Radio Stream',
       href: '/dashboard/radio-stream',
       icon: RadioIcon,
-      current: location.pathname === '/dashboard/radio-stream',
       description: 'Radio stream monitoring tools'
     },
     {
       name: 'Audio Stream',
       href: '/dashboard/audio-stream',
       icon: Headphones,
-      current: location.pathname === '/dashboard/audio-stream',
       description: 'Audio file matching system'
     },
   ];
@@ -159,30 +148,34 @@ export default function Layout() {
                 {sidebarCollapsed ? 'MENU' : 'Station Management'}
               </div>
               {navigation.map((item) => (
-                <Link
+                <NavLink
                   key={item.name}
                   to={item.href}
-                  className={`${
-                    item.current
+                  className={({ isActive }) => `${
+                    isActive
                       ? 'bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800 shadow-sm'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white border-transparent'
                   } group flex items-center px-3 py-3 text-sm font-medium rounded-xl border transition-all duration-200 ${sidebarCollapsed ? 'justify-center' : ''}`}
                   title={sidebarCollapsed ? item.name : undefined}
                 >
-                  <item.icon className={`${
-                    item.current
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
-                  } w-5 h-5 ${sidebarCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-                  {!sidebarCollapsed && (
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium">{item.name}</div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                        {item.description}
-                      </div>
-                    </div>
+                  {({ isActive }) => (
+                    <>
+                      <item.icon className={`${
+                        isActive
+                          ? 'text-blue-600 dark:text-blue-400'
+                          : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
+                      } w-5 h-5 ${sidebarCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
+                      {!sidebarCollapsed && (
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium">{item.name}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {item.description}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
-                </Link>
+                </NavLink>
               ))}
             </div>
           </nav>
@@ -223,7 +216,7 @@ export default function Layout() {
             isSidebarOpen={sidebarOpen}
             isSidebarCollapsed={sidebarCollapsed}
             onToggleCollapse={toggleSidebarCollapse}
-            activeTab={navigation.find(item => item.current)?.name?.toLowerCase() || 'dashboard'}
+            activeTab={navigation.find(item => window.location.pathname === item.href)?.name?.toLowerCase() || 'dashboard'}
           />
 
           {/* Page content */}
