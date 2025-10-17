@@ -27,7 +27,8 @@ import {
   Target,
   Filter,
   HelpCircle,
-  Settings
+  Settings,
+  Edit
 } from 'lucide-react';
 import ContributorsSection from '../components/trackDetails/ContributorsSection';
 import PlaysOverTimeSection from '../components/trackDetails/PlaysOverTimeSection';
@@ -115,11 +116,21 @@ const TrackDetails: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [newContributor, setNewContributor] = useState({ name: '', role: '', percentage: 0 });
   const [activeTab, setActiveTab] = useState<'performance' | 'revenue' | 'contributors' | 'geography'>('performance');
 
   // Get track data - for demo, we'll use the first track or find by ID
   const track = trackId ? mockTrackData : mockTrackData;
+
+  // Initialize edit track data after track is available
+  const [editTrackData, setEditTrackData] = useState({
+    title: track.title,
+    artist_name: track.artist_name,
+    genre_name: track.genre_name,
+    album: track.album,
+    description: ''
+  });
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -256,6 +267,13 @@ const TrackDetails: React.FC = () => {
             </button>
             <button className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500" title="Share track">
               <Share2 className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setIsEditModalOpen(true)}
+              className="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-slate-800 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              title="Edit track information"
+            >
+              <Edit className="w-4 h-4" />
             </button>
           </div>
 
@@ -651,6 +669,121 @@ const TrackDetails: React.FC = () => {
                   className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
                 >
                   Add Contributor
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Track Modal */}
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Edit Track Information</h2>
+              <button
+                onClick={() => setIsEditModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Track Title
+                </label>
+                <input
+                  type="text"
+                  value={editTrackData.title}
+                  onChange={(e) => setEditTrackData({ ...editTrackData, title: e.target.value })}
+                  placeholder="Enter track title"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Artist Name
+                </label>
+                <input
+                  type="text"
+                  value={editTrackData.artist_name}
+                  onChange={(e) => setEditTrackData({ ...editTrackData, artist_name: e.target.value })}
+                  placeholder="Enter artist name"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Genre
+                </label>
+                <select
+                  value={editTrackData.genre_name}
+                  onChange={(e) => setEditTrackData({ ...editTrackData, genre_name: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="">Select Genre</option>
+                  <option value="Afrobeats">Afrobeats</option>
+                  <option value="Afro Pop">Afro Pop</option>
+                  <option value="Highlife">Highlife</option>
+                  <option value="Hip Hop">Hip Hop</option>
+                  <option value="Gospel">Gospel</option>
+                  <option value="Reggae">Reggae</option>
+                  <option value="Dancehall">Dancehall</option>
+                  <option value="R&B">R&B</option>
+                  <option value="Traditional">Traditional</option>
+                  <option value="Jazz">Jazz</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Album
+                </label>
+                <input
+                  type="text"
+                  value={editTrackData.album}
+                  onChange={(e) => setEditTrackData({ ...editTrackData, album: e.target.value })}
+                  placeholder="Enter album name (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={editTrackData.description}
+                  onChange={(e) => setEditTrackData({ ...editTrackData, description: e.target.value })}
+                  rows={3}
+                  placeholder="Brief description of the track (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-4">
+                <button
+                  onClick={() => setIsEditModalOpen(false)}
+                  className="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // In a real app, this would make an API call to update the track
+                    alert(`Track "${editTrackData.title}" has been updated successfully!`);
+                    setIsEditModalOpen(false);
+                  }}
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+                >
+                  Save Changes
                 </button>
               </div>
             </div>

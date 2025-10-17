@@ -18,7 +18,8 @@ import {
   MoreHorizontal,
   ChevronUp,
   ChevronDown,
-  ArrowUpDown
+  ArrowUpDown,
+  Album
 } from 'lucide-react';
 
 // Type definitions for upload management
@@ -133,6 +134,14 @@ const UploadManagement: React.FC = () => {
   const [selectedUploads, setSelectedUploads] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [isAddAlbumModalOpen, setIsAddAlbumModalOpen] = useState(false);
+  const [newAlbumData, setNewAlbumData] = useState({
+    title: '',
+    artist: '',
+    genre: '',
+    releaseDate: '',
+    description: ''
+  });
 
   const handleViewTrack = (trackId: string) => {
     navigate('/dashboard/track-details', { state: { trackId } });
@@ -328,6 +337,20 @@ const UploadManagement: React.FC = () => {
               </p>
             </div>
             <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setIsAddAlbumModalOpen(true)}
+                className="flex items-center space-x-2 px-4 py-2 bg-white/20 dark:bg-slate-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300 rounded-md border border-gray-200 dark:border-slate-600 hover:bg-white/30 dark:hover:bg-slate-800/70 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Album className="w-4 h-4" />
+                <span>Add Album</span>
+              </button>
+              <button
+                onClick={() => navigate('/dashboard/album-list')}
+                className="flex items-center space-x-2 px-4 py-2 bg-white/20 dark:bg-slate-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300 rounded-md border border-gray-200 dark:border-slate-600 hover:bg-white/30 dark:hover:bg-slate-800/70 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Album className="w-4 h-4" />
+                <span>Album Management</span>
+              </button>
               <button
                 onClick={() => navigate('/dashboard/add-track')}
                 className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
@@ -731,6 +754,127 @@ const UploadManagement: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Add Album Modal */}
+      {isAddAlbumModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 max-w-lg w-full mx-4 shadow-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Add New Album</h2>
+              <button
+                onClick={() => setIsAddAlbumModalOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Album Title
+                </label>
+                <input
+                  type="text"
+                  value={newAlbumData.title}
+                  onChange={(e) => setNewAlbumData({ ...newAlbumData, title: e.target.value })}
+                  placeholder="Enter album title"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Artist Name
+                </label>
+                <input
+                  type="text"
+                  value={newAlbumData.artist}
+                  onChange={(e) => setNewAlbumData({ ...newAlbumData, artist: e.target.value })}
+                  placeholder="Enter artist name"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Genre
+                </label>
+                <select
+                  value={newAlbumData.genre}
+                  onChange={(e) => setNewAlbumData({ ...newAlbumData, genre: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                >
+                  <option value="">Select Genre</option>
+                  <option value="Afrobeats">Afrobeats</option>
+                  <option value="Afro Pop">Afro Pop</option>
+                  <option value="Highlife">Highlife</option>
+                  <option value="Hip Hop">Hip Hop</option>
+                  <option value="Gospel">Gospel</option>
+                  <option value="Reggae">Reggae</option>
+                  <option value="Dancehall">Dancehall</option>
+                  <option value="R&B">R&B</option>
+                  <option value="Traditional">Traditional</option>
+                  <option value="Jazz">Jazz</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Release Date
+                </label>
+                <input
+                  type="date"
+                  value={newAlbumData.releaseDate}
+                  onChange={(e) => setNewAlbumData({ ...newAlbumData, releaseDate: e.target.value })}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={newAlbumData.description}
+                  onChange={(e) => setNewAlbumData({ ...newAlbumData, description: e.target.value })}
+                  rows={3}
+                  placeholder="Brief description of the album (optional)"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+
+              <div className="flex space-x-3 pt-4">
+                <button
+                  onClick={() => setIsAddAlbumModalOpen(false)}
+                  className="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // In a real app, this would make an API call to create the album
+                    alert(`Album "${newAlbumData.title}" by ${newAlbumData.artist} has been created successfully!`);
+                    setNewAlbumData({
+                      title: '',
+                      artist: '',
+                      genre: '',
+                      releaseDate: '',
+                      description: ''
+                    });
+                    setIsAddAlbumModalOpen(false);
+                  }}
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+                >
+                  Create Album
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

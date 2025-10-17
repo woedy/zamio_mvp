@@ -44,6 +44,8 @@ import {
 import Settings from '../pages/Settings';
 import AddTrack from '../pages/AddTrack';
 import UploadManagement from '../pages/UploadManagement';
+import AlbumList from '../pages/AlbumList';
+import AlbumDetails from '../pages/AlbumDetails';
 
 // Import layout and onboarding components
 import Layout from '../components/Layout';
@@ -162,6 +164,14 @@ const router = createBrowserRouter([
       {
         path: 'upload-management',
         element: <UploadManagement />
+      },
+      {
+        path: 'album-list',
+        element: <AlbumList />
+      },
+      {
+        path: 'album-details',
+        element: <AlbumDetails />
       }
     ]
   },
