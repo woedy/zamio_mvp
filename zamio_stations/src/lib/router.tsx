@@ -35,7 +35,6 @@ import {
   MatchLogs,
   MatchDisputes,
   Profile,
-  StaffManagement,
   Compliance,
   PlaylogManagement,
   Notifications,
@@ -43,6 +42,9 @@ import {
   RadioStream,
   AudioStream
 } from '../pages/StationPages';
+
+// Import StaffManagement from its own file
+import StaffManagement from '../pages/StaffManagement';
 
 // Import dispute management pages
 import DisputeDetails from '../pages/MatchDisputeManagement/DisputeDetails';
