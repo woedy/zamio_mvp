@@ -36,15 +36,15 @@ import {
   MatchDisputes,
   Profile,
   PlaylogManagement,
-  Notifications,
   Help,
   RadioStream,
   AudioStream
 } from '../pages/StationPages';
 
-// Import StaffManagement and Compliance from their own files
+// Import StaffManagement, Compliance, and Notifications from their own files
 import StaffManagement from '../pages/StaffManagement';
 import Compliance from '../pages/Compliance';
+import Notifications from '../pages/Notifications';
 
 // Import dispute management pages
 import DisputeDetails from '../pages/MatchDisputeManagement/DisputeDetails';
