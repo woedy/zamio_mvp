@@ -23,6 +23,9 @@ import Landing from '../pages/Landing';
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
+import UserManagement from '../pages/UserManagement';
+import UserDetail from '../pages/UserDetail';
+import AddUser from '../pages/AddUser';
 import NotFound from '../pages/NotFound';
 
 const router = createBrowserRouter([
@@ -55,6 +58,30 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Dashboard />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management',
+    element: (
+      <PrivateRoute>
+        <UserManagement />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management/add',
+    element: (
+      <PrivateRoute>
+        <AddUser />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/user-management/:id',
+    element: (
+      <PrivateRoute>
+        <UserDetail />
       </PrivateRoute>
     ),
   },

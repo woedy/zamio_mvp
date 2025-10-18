@@ -128,6 +128,47 @@ const ZamioAdminDashboard = () => {
     { name: 'Drill', value: 7, color: '#EF4444' },
   ]);
 
+  const [publisherStats] = useState({
+    totalPublishers: 245,
+    activeAgreements: 132,
+    pendingPublisherPayments: 23045.5,
+    internationalPartners: 18,
+    catalogsUnderReview: 27,
+    agreementsExpiring: 9,
+    payoutVelocity: 4.3,
+  });
+
+  const [publisherPerformance] = useState([
+    {
+      name: 'Universal Music Publishing Ghana',
+      territory: 'West Africa',
+      totalRoyalties: 183204.54,
+      activeAgreements: 12,
+      status: 'Active',
+    },
+    {
+      name: 'Eazymusic Collective',
+      territory: 'Accra & Kumasi',
+      totalRoyalties: 98234.21,
+      activeAgreements: 8,
+      status: 'Renewing',
+    },
+    {
+      name: 'Pan-African Rights Guild',
+      territory: 'Pan-Africa',
+      totalRoyalties: 124578.93,
+      activeAgreements: 10,
+      status: 'Active',
+    },
+    {
+      name: 'Atlantic PRO Exchange',
+      territory: 'US & EU',
+      totalRoyalties: 75683.44,
+      activeAgreements: 6,
+      status: 'Watchlist',
+    },
+  ]);
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
@@ -160,10 +201,23 @@ const ZamioAdminDashboard = () => {
     }
   };
 
+  const getPublisherStatusStyles = (status: string) => {
+    switch (status) {
+      case 'Active':
+        return 'border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300';
+      case 'Renewing':
+        return 'border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300';
+      case 'Watchlist':
+        return 'border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300';
+      default:
+        return 'border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-300';
+    }
+  };
+
   // Dashboard content component that receives activeTab as prop
   const DashboardContent = ({ activeTab }: { activeTab: string }) => {
     return (
-      <main className="w-full px-6 py-8 bg-gray-50/50 dark:bg-slate-900/50 min-h-screen">
+      <main className="w-full px-6 py-8 min-h-screen">
         {/* Dashboard Header */}
         <div className="mb-12">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -370,6 +424,106 @@ const ZamioAdminDashboard = () => {
                 </div>
               </div>
             </Card>
+          </div>
+
+          <div className="mt-12">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-500 rounded-lg flex items-center justify-center shadow-lg">
+                    <Building className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                      Publisher Network Snapshot
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 font-medium">
+                      Track partner coverage, agreements, and cross-border remittances
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="flex gap-3">
+                <button className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-500 text-white rounded-lg font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center space-x-2">
+                  <Eye className="w-4 h-4" />
+                  <span>View Publishers</span>
+                </button>
+                <button className="px-5 py-2.5 bg-white/60 dark:bg-slate-800/60 text-gray-700 dark:text-gray-300 rounded-lg font-medium border border-gray-200/50 dark:border-slate-600/50 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 backdrop-blur-sm">
+                  Manage Agreements
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="bg-gradient-to-br from-indigo-50/90 via-blue-50/80 to-purple-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-indigo-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-indigo-300 dark:hover:border-indigo-700/70 group cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">Total Publishers</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                      {publisherStats.totalPublishers.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/60 dark:to-purple-900/60 rounded-lg flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <Building className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-medium text-gray-600 dark:text-gray-300">{publisherStats.internationalPartners} international PROs</span>
+                </div>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-blue-50/90 via-sky-50/80 to-cyan-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-blue-300 dark:hover:border-blue-700/70 group cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">Active Agreements</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors duration-300">
+                      {publisherStats.activeAgreements}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/60 dark:to-cyan-900/60 rounded-lg flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <FileText className="w-6 h-6 text-sky-600 dark:text-sky-400" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center text-sm">
+                  <span className="text-amber-600 dark:text-amber-400 font-semibold">{publisherStats.agreementsExpiring} expiring this quarter</span>
+                </div>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-emerald-50/90 via-teal-50/80 to-green-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-emerald-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-emerald-300 dark:hover:border-emerald-700/70 group cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">International PRO Partners</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors duration-300">
+                      {publisherStats.internationalPartners}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/60 dark:to-teal-900/60 rounded-lg flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <Globe className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-medium text-gray-600 dark:text-gray-300">{publisherStats.catalogsUnderReview} catalogs under review</span>
+                </div>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-amber-50/90 via-orange-50/80 to-yellow-50/90 dark:from-slate-900/95 dark:via-slate-800/90 dark:to-slate-900/95 backdrop-blur-sm rounded-xl shadow-lg border border-amber-200/50 dark:border-slate-600/60 p-6 hover:shadow-xl hover:scale-[1.02] transition-all duration-300 hover:border-amber-300 dark:hover:border-amber-700/70 group cursor-pointer">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-normal text-gray-700 dark:text-slate-300 leading-relaxed">Pending Publisher Payouts</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-slate-100 leading-tight group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors duration-300">
+                      ₵{publisherStats.pendingPublisherPayments.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/60 dark:to-yellow-900/60 rounded-lg flex items-center justify-center backdrop-blur-sm group-hover:scale-110 transition-transform duration-300">
+                    <Wallet className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+                  <span className="font-medium text-gray-600 dark:text-gray-300">Payout velocity</span>
+                  <span className="text-amber-600 dark:text-amber-400 font-semibold">{publisherStats.payoutVelocity} days</span>
+                </div>
+              </Card>
+            </div>
           </div>
         </div>
 
@@ -698,6 +852,65 @@ const ZamioAdminDashboard = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+              </Card>
+
+              {/* Top Partner Publishers */}
+              <Card className="bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 dark:border-slate-700/30 p-8 hover:shadow-3xl hover:scale-[1.02] transition-all duration-500 group">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <Building className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+                        Top Partner Publishers
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">
+                        Key publisher partners and status this cycle
+                      </p>
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 dark:from-indigo-400 dark:to-purple-500 text-white rounded-lg text-sm font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center space-x-2">
+                    <Eye className="w-4 h-4" />
+                    <span>Manage</span>
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  {publisherPerformance.map((publisher, index) => {
+                    const statusClasses = getPublisherStatusStyles(publisher.status);
+                    return (
+                      <div
+                        key={publisher.name}
+                        className="flex items-center justify-between p-5 bg-gradient-to-r from-gray-50/60 to-indigo-50/40 dark:from-slate-800/40 dark:to-slate-700/30 rounded-xl border border-gray-200/40 dark:border-slate-600/30 hover:from-indigo-50/50 hover:to-purple-50/50 dark:hover:from-slate-600/50 dark:hover:to-slate-700/50 hover:scale-[1.02] hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 dark:from-indigo-400 dark:to-purple-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            {index + 1}
+                          </div>
+                          <div>
+                            <div className="font-bold text-gray-900 dark:text-white text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                              {publisher.name}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-300 font-medium group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors">
+                              {publisher.territory}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right space-y-1">
+                          <div className="text-gray-900 dark:text-white font-bold text-lg group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-300">
+                            ₵{publisher.totalRoyalties.toLocaleString()}
+                          </div>
+                          <div className="text-sm text-gray-600 dark:text-gray-300 font-medium">
+                            {publisher.activeAgreements} active agreements
+                          </div>
+                          <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${statusClasses}`}>
+                            {publisher.status}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </Card>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Home,
   Users,
@@ -31,62 +32,85 @@ const Sidebar: React.FC<SidebarProps> = ({
   activeTab = 'overview',
   onTabChange
 }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const navigationItems = [
     {
       name: 'Overview',
       id: 'overview',
       icon: Home,
-      current: activeTab === 'overview',
-      description: 'Platform overview and metrics'
+      current: location.pathname === '/dashboard' && activeTab === 'overview',
+      description: 'Platform overview and metrics',
+      link: '/dashboard',
+      isRoute: true,
+      onClick: () => {
+        navigate('/dashboard');
+        onTabChange?.('overview');
+      }
     },
     {
       name: 'Users',
       id: 'users',
       icon: Users,
-      current: activeTab === 'users',
-      description: 'User management and profiles'
+      current: location.pathname === '/user-management',
+      description: 'User management and profiles',
+      link: '/user-management',
+      isRoute: true
     },
     {
       name: 'Stations',
       id: 'stations',
       icon: Radio,
-      current: activeTab === 'stations',
-      description: 'Station management and monitoring'
+      current: location.pathname === '/dashboard' && activeTab === 'stations',
+      description: 'Station management and monitoring',
+      isRoute: false,
+      onClick: () => onTabChange?.('stations')
     },
     {
       name: 'Partners',
       id: 'partners',
       icon: Building,
-      current: activeTab === 'partners',
-      description: 'Partner agreements and management'
+      current: location.pathname === '/dashboard' && activeTab === 'partners',
+      description: 'Partner agreements and management',
+      isRoute: false,
+      onClick: () => onTabChange?.('partners')
     },
     {
       name: 'Disputes',
       id: 'disputes',
       icon: FileText,
-      current: activeTab === 'disputes',
-      description: 'Dispute resolution and tracking'
+      current: location.pathname === '/dashboard' && activeTab === 'disputes',
+      description: 'Dispute resolution and tracking',
+      isRoute: false,
+      onClick: () => onTabChange?.('disputes')
     },
     {
       name: 'Attribution QA',
       id: 'qa',
       icon: Target,
-      current: activeTab === 'qa',
-      description: 'Quality assurance and attribution'
+      current: location.pathname === '/dashboard' && activeTab === 'qa',
+      description: 'Quality assurance and attribution',
+      isRoute: false,
+      onClick: () => onTabChange?.('qa')
     },
     {
       name: 'Analytics',
       id: 'analytics',
       icon: BarChart3,
-      current: activeTab === 'analytics',
-      description: 'Platform analytics and insights'
+      current: location.pathname === '/dashboard' && activeTab === 'analytics',
+      description: 'Platform analytics and insights',
+      isRoute: false,
+      onClick: () => onTabChange?.('analytics')
     },
     {
       name: 'System',
       id: 'system',
       icon: Settings,
-      current: activeTab === 'system',
-      description: 'System settings and configuration'
+      current: location.pathname === '/dashboard' && activeTab === 'system',
+      description: 'System settings and configuration',
+      isRoute: false,
+      onClick: () => onTabChange?.('system')
     },
   ];
 
@@ -127,32 +151,38 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className={`px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider ${isCollapsed ? 'text-center' : ''}`}>
             {isCollapsed ? 'MENU' : 'ADMIN PANEL'}
           </div>
-          {navigationItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => onTabChange?.(item.id)}
-              className={`${
-                item.current
-                  ? 'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/50 dark:to-purple-900/50 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 shadow-sm'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white border-transparent'
-              } group flex items-center px-3 py-3 text-sm font-medium rounded-xl border transition-all duration-200 w-full ${isCollapsed ? 'justify-center' : ''}`}
-              title={isCollapsed ? item.name : undefined}
-            >
-              <item.icon className={`${
-                item.current
-                  ? 'text-indigo-600 dark:text-indigo-400'
-                  : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
-              } w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
-              {!isCollapsed && (
-                <div className="flex-1 min-w-0 text-left">
-                  <div className="font-medium">{item.name}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {item.description}
+          {navigationItems.map((item) => {
+            const isRoute = item.isRoute;
+            const ButtonComponent = isRoute ? Link : 'button';
+
+            return (
+              <ButtonComponent
+                key={item.id}
+                to={isRoute ? item.link : undefined}
+                onClick={!isRoute ? item.onClick : (item.onClick || undefined)}
+                className={`${
+                  item.current
+                    ? 'bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/50 dark:to-purple-900/50 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800 shadow-sm'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-800 hover:text-gray-900 dark:hover:text-white border-transparent'
+                } group flex items-center px-3 py-3 text-sm font-medium rounded-xl border transition-all duration-200 w-full ${isCollapsed ? 'justify-center' : ''}`}
+                title={isCollapsed ? item.name : undefined}
+              >
+                <item.icon className={`${
+                  item.current
+                    ? 'text-indigo-600 dark:text-indigo-400'
+                    : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
+                } w-5 h-5 ${isCollapsed ? '' : 'mr-3'} flex-shrink-0`} />
+                {!isCollapsed && (
+                  <div className="flex-1 min-w-0 text-left">
+                    <div className="font-medium">{item.name}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                      {item.description}
+                    </div>
                   </div>
-                </div>
-              )}
-            </button>
-          ))}
+                )}
+              </ButtonComponent>
+            );
+          })}
         </div>
       </nav>
 
