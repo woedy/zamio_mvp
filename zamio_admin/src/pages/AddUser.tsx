@@ -224,7 +224,7 @@ const AddUser = () => {
 
   return (
     <Layout>
-      <main className="w-full px-6 py-8 bg-gray-50/50 dark:bg-slate-900/50 min-h-screen">
+      <main className="w-full px-6 py-8 min-h-screen">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center space-x-4 mb-6">

@@ -13,6 +13,10 @@ import {
   ChevronLeft,
   ChevronRight,
   LogOut,
+  AlertTriangle,
+  Music,
+  Download,
+  Activity,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -68,49 +72,22 @@ const Sidebar: React.FC<SidebarProps> = ({
       onClick: () => onTabChange?.('stations')
     },
     {
+      name: 'Disputes',
+      id: 'disputes',
+      icon: AlertTriangle,
+      current: location.pathname === '/disputes',
+      description: 'Dispute management and resolution',
+      link: '/disputes',
+      isRoute: true
+    },
+    {
       name: 'Partners',
       id: 'partners',
       icon: Building,
-      current: location.pathname === '/dashboard' && activeTab === 'partners',
+      current: location.pathname === '/partners',
       description: 'Partner agreements and management',
-      isRoute: false,
-      onClick: () => onTabChange?.('partners')
-    },
-    {
-      name: 'Disputes',
-      id: 'disputes',
-      icon: FileText,
-      current: location.pathname === '/dashboard' && activeTab === 'disputes',
-      description: 'Dispute resolution and tracking',
-      isRoute: false,
-      onClick: () => onTabChange?.('disputes')
-    },
-    {
-      name: 'Attribution QA',
-      id: 'qa',
-      icon: Target,
-      current: location.pathname === '/dashboard' && activeTab === 'qa',
-      description: 'Quality assurance and attribution',
-      isRoute: false,
-      onClick: () => onTabChange?.('qa')
-    },
-    {
-      name: 'Analytics',
-      id: 'analytics',
-      icon: BarChart3,
-      current: location.pathname === '/dashboard' && activeTab === 'analytics',
-      description: 'Platform analytics and insights',
-      isRoute: false,
-      onClick: () => onTabChange?.('analytics')
-    },
-    {
-      name: 'System',
-      id: 'system',
-      icon: Settings,
-      current: location.pathname === '/dashboard' && activeTab === 'system',
-      description: 'System settings and configuration',
-      isRoute: false,
-      onClick: () => onTabChange?.('system')
+      link: '/partners',
+      isRoute: true
     },
   ];
 

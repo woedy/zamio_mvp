@@ -26,6 +26,12 @@ import Dashboard from '../pages/Dashboard';
 import UserManagement from '../pages/UserManagement';
 import UserDetail from '../pages/UserDetail';
 import AddUser from '../pages/AddUser';
+import Partners from '../pages/Partners';
+import PartnerDetail from '../pages/PartnerDetail';
+import Agreements from '../pages/Agreements';
+import Disputes from '../pages/Disputes';
+import DisputeDetail from '../pages/DisputeDetail';
+import DisputesAnalytics from '../pages/DisputesAnalytics';
 import NotFound from '../pages/NotFound';
 
 const router = createBrowserRouter([
@@ -58,6 +64,54 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <Dashboard />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/partners',
+    element: (
+      <PrivateRoute>
+        <Partners />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/agreements',
+    element: (
+      <PrivateRoute>
+        <Agreements />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/disputes',
+    element: (
+      <PrivateRoute>
+        <Disputes />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/disputes/analytics',
+    element: (
+      <PrivateRoute>
+        <DisputesAnalytics />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/disputes/:id',
+    element: (
+      <PrivateRoute>
+        <DisputeDetail />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/partners/:type/:id',
+    element: (
+      <PrivateRoute>
+        <PartnerDetail />
       </PrivateRoute>
     ),
   },
