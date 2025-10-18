@@ -37,7 +37,8 @@ import {
   ContractsLegal,
   ProfileSettings,
   Support,
-  PlayLogs
+  PlayLogs,
+  PaymentProcessing
 } from '../pages/PublisherPages';
 
 const router = createBrowserRouter([
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
       {
         path: 'royalties',
         element: <RoyaltiesPayments />
+      },
+      {
+        path: 'royalties/process-payments',
+        element: <PaymentProcessing />
       },
       {
         path: 'reports',

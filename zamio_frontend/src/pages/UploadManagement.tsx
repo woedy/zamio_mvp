@@ -135,6 +135,7 @@ const UploadManagement: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [isAddAlbumModalOpen, setIsAddAlbumModalOpen] = useState(false);
+  const [isBulkUploadModalOpen, setIsBulkUploadModalOpen] = useState(false);
   const [newAlbumData, setNewAlbumData] = useState({
     title: '',
     artist: '',
@@ -142,6 +143,120 @@ const UploadManagement: React.FC = () => {
     releaseDate: '',
     description: ''
   });
+
+  // Bulk Upload State Management
+  const [bulkUploadStep, setBulkUploadStep] = useState(1);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [uploadMetadata, setUploadMetadata] = useState<{[key: string]: {
+    title?: string;
+    artist?: string;
+    album?: string;
+    genre?: string;
+    duration?: string;
+    isrc?: string;
+    composer?: string;
+    producer?: string;
+    bpm?: string;
+    key?: string;
+    mood?: string;
+    language?: string;
+    explicit?: boolean;
+    featured?: boolean;
+    tags?: string[];
+  }}>({});
+  const [uploadProgress, setUploadProgress] = useState<{[key: string]: number}>({});
+  const [uploadStatus, setUploadStatus] = useState<{[key: string]: 'uploading' | 'processing' | 'completed' | 'failed' | 'cancelled'}>({});
+  const [isBulkUploading, setIsBulkUploading] = useState(false);
+
+  const resetBulkUpload = () => {
+    setBulkUploadStep(1);
+    setSelectedFiles([]);
+    setUploadMetadata({});
+    setUploadProgress({});
+    setUploadStatus({});
+    setIsBulkUploading(false);
+    setIsBulkUploadModalOpen(false);
+  };
+
+  const handleBulkFileSelect = (files: FileList | null) => {
+    if (!files) return;
+
+    const audioFiles = Array.from(files).filter(file =>
+      file.type.startsWith('audio/') && file.size <= 50 * 1024 * 1024 // 50MB limit
+    );
+
+    if (audioFiles.length !== files.length) {
+      alert('Some files were skipped. Only audio files under 50MB are supported.');
+    }
+
+    setSelectedFiles(audioFiles);
+
+    // Initialize metadata for each file
+    const initialMetadata: {[key: string]: any} = {};
+    audioFiles.forEach(file => {
+      initialMetadata[file.name] = {
+        title: '',
+        artist: '',
+        album: '',
+        genre: '',
+        duration: '',
+        isrc: '',
+        composer: '',
+        producer: '',
+        bpm: '',
+        key: '',
+        mood: '',
+        language: 'English',
+        explicit: false,
+        featured: false,
+        tags: []
+      };
+    });
+    setUploadMetadata(initialMetadata);
+  };
+
+  const handleMetadataChange = (fileName: string, field: string, value: any) => {
+    setUploadMetadata(prev => ({
+      ...prev,
+      [fileName]: {
+        ...prev[fileName],
+        [field]: value
+      }
+    }));
+  };
+
+  const simulateBulkUpload = async () => {
+    setIsBulkUploading(true);
+    setBulkUploadStep(3);
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      const fileId = file.name + '_' + Date.now();
+
+      setUploadStatus(prev => ({ ...prev, [fileId]: 'uploading' }));
+      setUploadProgress(prev => ({ ...prev, [fileId]: 0 }));
+
+      // Simulate upload progress
+      for (let progress = 0; progress <= 100; progress += 10) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        setUploadProgress(prev => ({ ...prev, [fileId]: progress }));
+      }
+
+      setUploadStatus(prev => ({ ...prev, [fileId]: 'processing' }));
+
+      // Simulate processing
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Random success/failure for demo
+      const success = Math.random() > 0.1; // 90% success rate
+      setUploadStatus(prev => ({
+        ...prev,
+        [fileId]: success ? 'completed' : 'failed'
+      }));
+    }
+
+    setIsBulkUploading(false);
+  };
 
   const handleViewTrack = (trackId: string) => {
     navigate('/dashboard/track-details', { state: { trackId } });
@@ -200,7 +315,7 @@ const UploadManagement: React.FC = () => {
           break;
         case 'fileSize':
           aValue = a.fileSize;
-          bValue = b.fileSize;
+          bValue = a.fileSize;
           break;
         case 'uploadDate':
           aValue = new Date(a.uploadDate);
@@ -352,11 +467,21 @@ const UploadManagement: React.FC = () => {
                 <span>Album Management</span>
               </button>
               <button
-                onClick={() => navigate('/dashboard/add-track')}
+                onClick={() => {
+                  setIsBulkUploadModalOpen(true);
+                  setBulkUploadStep(1);
+                }}
                 className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-md hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
                 <Upload className="w-4 h-4" />
-                <span>Upload Files</span>
+                <span>Bulk Upload</span>
+              </button>
+              <button
+                onClick={() => navigate('/dashboard/add-track')}
+                className="flex items-center space-x-2 px-4 py-2 bg-white/20 dark:bg-slate-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300 rounded-md border border-gray-200 dark:border-slate-600 hover:bg-white/30 dark:hover:bg-slate-800/70 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <Upload className="w-4 h-4" />
+                <span>Add Single Track</span>
               </button>
             </div>
           </div>
@@ -718,10 +843,10 @@ const UploadManagement: React.FC = () => {
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm ${
+                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
                           currentPage === pageNum
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md transform scale-105'
-                            : 'text-gray-600 dark:text-gray-400 bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 border border-gray-200 dark:border-slate-600 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md'
+                            ? 'bg-indigo-600 text-white'
+                            : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700'
                         }`}
                       >
                         {pageNum}
@@ -872,6 +997,430 @@ const UploadManagement: React.FC = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Upload Modal - Multi-Step Wizard */}
+      {isBulkUploadModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
+            {/* Modal Header */}
+            <div className="p-6 border-b border-gray-200 dark:border-slate-700">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className="p-2 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg">
+                    <Upload className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white">Bulk Upload Tracks</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Step {bulkUploadStep} of 4: {bulkUploadStep === 1 ? 'Select Files' : bulkUploadStep === 2 ? 'Add Metadata' : bulkUploadStep === 3 ? 'Upload Progress' : 'Complete'}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={resetBulkUpload}
+                  className="p-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors duration-200"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Progress Steps */}
+              <div className="flex items-center justify-center mt-4 space-x-2">
+                {[1, 2, 3, 4].map((step) => (
+                  <div key={step} className="flex items-center">
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors duration-200 ${
+                      step <= bulkUploadStep
+                        ? 'bg-indigo-600 text-white'
+                        : 'bg-gray-200 dark:bg-slate-700 text-gray-500 dark:text-gray-400'
+                    }`}>
+                      {step}
+                    </div>
+                    {step < 4 && (
+                      <div className={`w-8 h-1 mx-2 transition-colors duration-200 ${
+                        step < bulkUploadStep
+                          ? 'bg-indigo-600'
+                          : 'bg-gray-200 dark:bg-slate-700'
+                      }`} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Modal Content - Step 1: File Selection */}
+            {bulkUploadStep === 1 && (
+              <div className="p-6">
+                <div className="border-2 border-dashed border-gray-300 dark:border-slate-600 rounded-lg p-8">
+                  <div className="text-center">
+                    <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <div className="space-y-2">
+                      <p className="text-lg font-medium text-gray-900 dark:text-white">
+                        Drop your audio files here
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        Or click to browse and select multiple files
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-500">
+                        Supports: MP3, WAV, FLAC, AIFF (max 50MB per file)
+                      </p>
+                    </div>
+                    <input
+                      type="file"
+                      accept="audio/*"
+                      multiple
+                      onChange={(e) => handleBulkFileSelect(e.target.files)}
+                      className="hidden"
+                      id="bulk-upload-files"
+                    />
+                    <label
+                      htmlFor="bulk-upload-files"
+                      className="inline-flex items-center px-6 py-3 mt-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer transition-colors duration-200"
+                    >
+                      Choose Files
+                    </label>
+                  </div>
+                </div>
+
+                {/* Selected Files Preview */}
+                {selectedFiles.length > 0 && (
+                  <div className="mt-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                      Selected Files ({selectedFiles.length})
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-40 overflow-y-auto">
+                      {selectedFiles.map((file, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <FileAudio className="w-5 h-5 text-indigo-600" />
+                            <div>
+                              <p className="font-medium text-gray-900 dark:text-white text-sm truncate">
+                                {file.name}
+                              </p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => setSelectedFiles(prev => prev.filter((_, i) => i !== index))}
+                            className="p-1 text-gray-400 hover:text-red-600 dark:text-gray-500 dark:hover:text-red-400"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-end pt-6">
+                  <button
+                    onClick={() => setBulkUploadStep(2)}
+                    disabled={selectedFiles.length === 0}
+                    className={`px-6 py-2 rounded-lg transition-all duration-200 ${
+                      selectedFiles.length > 0
+                        ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
+                        : 'bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    Next: Add Metadata
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Content - Step 2: Metadata Entry */}
+            {bulkUploadStep === 2 && (
+              <div className="p-6 max-h-[70vh] overflow-y-auto">
+                <div className="space-y-6">
+                  {selectedFiles.map((file, index) => (
+                    <div key={index} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4">
+                      <div className="flex items-center space-x-3 mb-4">
+                        <FileAudio className="w-5 h-5 text-indigo-600" />
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">{file.name}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {(file.size / (1024 * 1024)).toFixed(2)} MB
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Track Title
+                          </label>
+                          <input
+                            type="text"
+                            value={uploadMetadata[file.name]?.title || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'title', e.target.value)}
+                            placeholder="Enter track title"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Artist
+                          </label>
+                          <input
+                            type="text"
+                            value={uploadMetadata[file.name]?.artist || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'artist', e.target.value)}
+                            placeholder="Enter artist name"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Album
+                          </label>
+                          <input
+                            type="text"
+                            value={uploadMetadata[file.name]?.album || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'album', e.target.value)}
+                            placeholder="Enter album name"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Genre
+                          </label>
+                          <select
+                            value={uploadMetadata[file.name]?.genre || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'genre', e.target.value)}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          >
+                            <option value="">Select Genre</option>
+                            <option value="Afrobeats">Afrobeats</option>
+                            <option value="Afro Pop">Afro Pop</option>
+                            <option value="Highlife">Highlife</option>
+                            <option value="Hip Hop">Hip Hop</option>
+                            <option value="Gospel">Gospel</option>
+                            <option value="Reggae">Reggae</option>
+                            <option value="Dancehall">Dancehall</option>
+                            <option value="R&B">R&B</option>
+                            <option value="Traditional">Traditional</option>
+                            <option value="Jazz">Jazz</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Duration
+                          </label>
+                          <input
+                            type="text"
+                            value={uploadMetadata[file.name]?.duration || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'duration', e.target.value)}
+                            placeholder="3:45"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            ISRC Code
+                          </label>
+                          <input
+                            type="text"
+                            value={uploadMetadata[file.name]?.isrc || ''}
+                            onChange={(e) => handleMetadataChange(file.name, 'isrc', e.target.value)}
+                            placeholder="QZ1234567890"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-between pt-6">
+                  <button
+                    onClick={() => setBulkUploadStep(1)}
+                    className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors duration-200"
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={() => setBulkUploadStep(3)}
+                    className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    Start Upload
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Content - Step 3: Upload Progress */}
+            {bulkUploadStep === 3 && (
+              <div className="p-6">
+                <div className="space-y-4">
+                  {selectedFiles.map((file, index) => {
+                    const fileId = file.name + '_' + Date.now();
+                    const status = uploadStatus[fileId];
+                    const progress = uploadProgress[fileId] || 0;
+
+                    return (
+                      <div key={index} className="border border-gray-200 dark:border-slate-700 rounded-lg p-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center space-x-3">
+                            <FileAudio className="w-5 h-5 text-indigo-600" />
+                            <div>
+                              <p className="font-medium text-gray-900 dark:text-white text-sm">
+                                {file.name}
+                              </p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center space-x-2">
+                            {status && (
+                              <>
+                                {status === 'uploading' && (
+                                  <>
+                                    <div className="w-4 h-4 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                                      {progress}%
+                                    </span>
+                                  </>
+                                )}
+                                {status === 'processing' && (
+                                  <>
+                                    <Clock className="w-4 h-4 text-yellow-600 animate-spin" />
+                                    <span className="text-sm text-yellow-600">Processing</span>
+                                  </>
+                                )}
+                                {status === 'completed' && (
+                                  <>
+                                    <CheckCircle className="w-4 h-4 text-green-600" />
+                                    <span className="text-sm text-green-600">Complete</span>
+                                  </>
+                                )}
+                                {status === 'failed' && (
+                                  <>
+                                    <XCircle className="w-4 h-4 text-red-600" />
+                                    <span className="text-sm text-red-600">Failed</span>
+                                  </>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {status && (
+                          <div className="w-full bg-gray-200 dark:bg-slate-700 rounded-full h-2">
+                            <div
+                              className={`h-2 rounded-full transition-all duration-300 ${
+                                status === 'completed' ? 'bg-green-500' :
+                                status === 'processing' ? 'bg-blue-500' :
+                                status === 'uploading' ? 'bg-indigo-500' :
+                                status === 'failed' ? 'bg-red-500' : 'bg-gray-500'
+                              }`}
+                              style={{ width: `${progress}%` }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {isBulkUploading && (
+                  <div className="flex justify-center items-center py-4">
+                    <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                    <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Uploading files...</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between pt-6">
+                  <button
+                    onClick={() => setBulkUploadStep(2)}
+                    disabled={isBulkUploading}
+                    className={`px-6 py-2 rounded-lg transition-all duration-200 ${
+                      isBulkUploading
+                        ? 'bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                        : 'text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600'
+                    }`}
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={simulateBulkUpload}
+                    disabled={isBulkUploading}
+                    className={`px-6 py-2 rounded-lg transition-all duration-200 ${
+                      isBulkUploading
+                        ? 'bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg hover:shadow-xl'
+                    }`}
+                  >
+                    {isBulkUploading ? 'Uploading...' : 'Complete Upload'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Modal Content - Step 4: Completion */}
+            {bulkUploadStep === 4 && (
+              <div className="p-6 text-center">
+                <div className="mb-6">
+                  <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    Upload Complete!
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {selectedFiles.length} files have been successfully uploaded and processed.
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 mb-6">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        {Object.values(uploadStatus).filter(status => status === 'completed').length}
+                      </div>
+                      <div className="text-gray-600 dark:text-gray-400">Successful</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                        {Object.values(uploadStatus).filter(status => status === 'failed').length}
+                      </div>
+                      <div className="text-gray-600 dark:text-gray-400">Failed</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-center space-x-3">
+                  <button
+                    onClick={resetBulkUpload}
+                    className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                  >
+                    Done
+                  </button>
+                  <button
+                    onClick={() => {
+                      resetBulkUpload();
+                      setBulkUploadStep(1);
+                    }}
+                    className="px-6 py-2 text-gray-700 dark:text-gray-300 bg-white dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-600 transition-colors duration-200"
+                  >
+                    Upload More Files
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
