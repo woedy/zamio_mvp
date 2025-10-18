@@ -89,6 +89,15 @@ const Sidebar: React.FC<SidebarProps> = ({
       link: '/partners',
       isRoute: true
     },
+    {
+      name: 'Play Logs',
+      id: 'playlogs',
+      icon: Activity,
+      current: location.pathname === '/playlogs',
+      description: 'Music play and match logs',
+      link: '/playlogs',
+      isRoute: true
+    },
   ];
 
   return (

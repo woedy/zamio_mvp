@@ -32,6 +32,7 @@ import Agreements from '../pages/Agreements';
 import Disputes from '../pages/Disputes';
 import DisputeDetail from '../pages/DisputeDetail';
 import DisputesAnalytics from '../pages/DisputesAnalytics';
+import PlayLogs from '../pages/PlayLogs';
 import NotFound from '../pages/NotFound';
 
 const router = createBrowserRouter([
@@ -104,6 +105,14 @@ const router = createBrowserRouter([
     element: (
       <PrivateRoute>
         <DisputeDetail />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: '/playlogs',
+    element: (
+      <PrivateRoute>
+        <PlayLogs />
       </PrivateRoute>
     ),
   },
